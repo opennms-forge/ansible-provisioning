@@ -1,0 +1,6 @@
+[nodes]
+node0 ansible_host=172.16.238.12
+node1 ansible_host=172.16.238.13
+
+[all:vars]
+stack=department1

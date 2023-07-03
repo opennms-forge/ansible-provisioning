@@ -1,0 +1,9 @@
+---
+- name: Check if API is available
+  ansible.builtin.uri:
+    url: "{{ opennms.resturl }}/{{ opennms.nodeapi }}"
+    user: "{{ opennms.user }}"
+    password: "{{ opennms.password }}"
+    method: GET
+    force_basic_auth: true
+    status_code: 200

@@ -1,0 +1,6 @@
+---
+opennms:
+  resturl: http://localhost:8980/opennms/rest
+  nodeapi: nodes
+  user: admin
+  password: admin
