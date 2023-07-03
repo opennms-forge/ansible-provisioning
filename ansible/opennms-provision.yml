@@ -1,11 +1,6 @@
 ---
-- name: Gather facts
-  hosts: all
-  gather_facts: true
+- name: OpenNMS-Provision
+  hosts: localhost
+  connection: local 
   roles:
   - opennms-provision
-#- name: OpenNMS-Provision
-#  hosts: localhost
-#  connection: local 
-#  roles:
-#  - opennms-provision

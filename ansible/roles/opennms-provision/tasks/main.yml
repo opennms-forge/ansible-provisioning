@@ -2,5 +2,5 @@
 - name: Print all available facts
   ansible.builtin.debug:
     var: ansible_facts
-#- name: Check if node is existant
-  #ansible.builtin.include_tasks: checknode.yml
+- name: Check if node is existant
+  ansible.builtin.include_tasks: checknode_selfmonitor.yml

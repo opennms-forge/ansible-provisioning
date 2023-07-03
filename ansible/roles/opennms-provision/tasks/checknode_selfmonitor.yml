@@ -1,7 +1,7 @@
 ---
-- name: Check if API is available
+- name: Check if if selfmonitor node is existant
   ansible.builtin.uri:
-    url: "{{ opennms.resturl }}/{{ opennms.nodeapi }}"
+    url: "{{ opennms.resturl }}/{{ opennms.nodeapi }}/1"
     user: "{{ opennms.user }}"
     password: "{{ opennms.password }}"
     method: GET

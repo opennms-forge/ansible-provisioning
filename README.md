@@ -26,7 +26,7 @@ In `./ansible` all ansible playbook, inventories and variables are stored.
 
 ```
 cd ansible
-ansible-playbook opennms-provision.yml -i inventory/department1/inventory
+ansible-playbook opennms-provision.yml
 ```
 
 ## Hint from Mattermost chat about creating nodes
