@@ -25,8 +25,11 @@ docker-compose up -d
 ### IP addresses
 
 OpenNMS: 172.16.238.11
+
 Node1: 172.16.238.12
+
 Node2: 172.16.238.13
+
 
 ## Ansible
 
