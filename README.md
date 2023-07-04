@@ -2,17 +2,19 @@
 
 With this project we want to give it a try to provisiong out of Ansible inventories into OpenNMS.
 
+## Requirements
+
+* Ansible
+* sshpass
+
+`sudo apt install ansible sshpass`
+
 ## Usage
 
-## Spin up OpenNMS
+## Spin up OpenNMS + test nodes
 
 In `./opennms/` is a `docker-compose` configuration to spin up an OpenNMS, and two Ubuntu clients locally on your computer.
 
-### IP addresses
-
-OpenNMS: 172.16.238.11
-Node1: 172.16.238.12
-Node1: 172.16.238.13
 
 To start the containers:
 ```
@@ -20,13 +22,20 @@ cd opennms/
 docker-compose up -d
 ```
 
+### IP addresses
+
+OpenNMS: 172.16.238.11
+Node1: 172.16.238.12
+Node2: 172.16.238.13
+
 ## Ansible
 
 In `./ansible` all ansible playbook, inventories and variables are stored.
 
+Example call:
 ```
 cd ansible
-ansible-playbook opennms-provision.yml
+ansible-playbook opennms-provision.yml -i inventory/department1
 ```
 
 ## Hint from Mattermost chat about creating nodes

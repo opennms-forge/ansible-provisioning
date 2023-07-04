@@ -1,6 +1,15 @@
 ---
+- name: Check if node is existent
+  ansible.builtin.uri:
+    url: "{{ opennms.resturl }}/{{ opennms.nodeapi }}/{{ ansible_facts['hostname'] }}"
+    user: "{{ opennms.user }}"
+    password: "{{ opennms.password }}"
+    method: GET
+    force_basic_auth: true
+    status_code: 200
+  ignore_errors: true
+  register: result
 - name: Print all available facts
   ansible.builtin.debug:
     var: ansible_facts
-- name: Check if node is existant
-  ansible.builtin.include_tasks: checknode_selfmonitor.yml
+  when: result.failed

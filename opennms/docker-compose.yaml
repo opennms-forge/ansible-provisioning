@@ -37,7 +37,7 @@ services:
         ipv4_address: 172.16.238.10
 
   horizon:
-    image: opennms/horizon:31.0.5
+    image: opennms/horizon:latest
     container_name: horizon
     hostname: horizon
     sysctls:
@@ -67,19 +67,21 @@ services:
         ipv4_address: 172.16.238.11
 
   node1:
-    image: ubuntu:latest
-    container_name: node1
-    restart: on-failure
-    command: ["sleep","infinity"]
+    image: "ubuntu-with-sshd:latest"
+    build:
+      context: "."
+      target: "ubuntu-with-sshd"
     networks:
       opennms:
         ipv4_address: 172.16.238.12
+    privileged: true # Required for /usr/sbin/init
 
   node2:
-    image: ubuntu:latest
-    container_name: node2
-    restart: on-failure
-    command: ["sleep","infinity"]
+    image: "ubuntu-with-sshd:latest"
+    build:
+      context: "."
+      target: "ubuntu-with-sshd"
     networks:
       opennms:
         ipv4_address: 172.16.238.13
+    privileged: true # Required for /usr/sbin/init

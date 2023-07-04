@@ -1,6 +1,7 @@
 ---
-- name: OpenNMS-Provision
-  hosts: localhost
-  connection: local 
+- name: OpenNMS Provisioning
+  hosts: nodes
+  become: true
+  gather_facts: true
   roles:
   - opennms-provision
