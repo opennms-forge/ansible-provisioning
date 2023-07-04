@@ -1,0 +1,7 @@
+---
+- name: OpenNMS Provisioning
+  hosts: nodes
+  become: true
+  gather_facts: true
+  roles:
+  - opennms-provision
