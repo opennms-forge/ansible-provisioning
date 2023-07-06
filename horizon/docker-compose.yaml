@@ -71,6 +71,9 @@ services:
     build:
       context: "test-node"
       target: "ubuntu-with-sshd"
+    environment:
+      MACHINE_ID: 6332f01f-f80f-4493-8389-dcdc6a7bb-n1
+    command: ["/entrypoint.sh"]
     networks:
       opennms:
         ipv4_address: 172.16.238.12
@@ -81,6 +84,9 @@ services:
     build:
       context: "test-node"
       target: "ubuntu-with-sshd"
+    environment:
+      MACHINE_ID: 030e8347-748f-4004-9d5a-8390bc844-n2
+    command: ["/entrypoint.sh"]
     networks:
       opennms:
         ipv4_address: 172.16.238.13
