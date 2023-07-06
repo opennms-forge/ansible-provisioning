@@ -69,7 +69,7 @@ services:
   node1:
     image: "ubuntu-with-sshd:latest"
     build:
-      context: "."
+      context: "test-node"
       target: "ubuntu-with-sshd"
     networks:
       opennms:
@@ -79,7 +79,7 @@ services:
   node2:
     image: "ubuntu-with-sshd:latest"
     build:
-      context: "."
+      context: "test-node"
       target: "ubuntu-with-sshd"
     networks:
       opennms:

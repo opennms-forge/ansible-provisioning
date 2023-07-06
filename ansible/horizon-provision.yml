@@ -1,7 +1,7 @@
 ---
-- name: OpenNMS Provisioning
+- name: OpenNMS Horizon Provisioning
   hosts: nodes
   become: true
   gather_facts: true
   roles:
-  - opennms-provision
+  - horizon-provision

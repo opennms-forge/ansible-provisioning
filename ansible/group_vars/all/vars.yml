@@ -1,5 +1,5 @@
 ---
-opennms:
+horizon:
   resturl: http://172.16.238.11:8980/opennms/rest
   nodeapi: nodes
   user: admin

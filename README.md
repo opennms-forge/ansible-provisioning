@@ -1,30 +1,34 @@
-# Ansible OpenNMS Provisioning
+# Ansible provisioning into OpenNMS Horizon
 
-With this project we want to give it a try to provisiong out of Ansible inventories into OpenNMS.
+We have seen a lot of people managing their system configuration with Ansible.
+While this is a place where applications and monitoring agents get deployed, it is an ideal place to define how you want it to test during operations.
+This repository is a conceptual playground investigating how we use Ansible to drive the node inventory and the service monitoring in OpenNMS Horizon.
+
+![Ansible-Provisioning.png](Ansible-Provisioning.png)
 
 ## Requirements
 
 * Ansible
 * sshpass
+* Docker and Docker-Compose
 
 `sudo apt install ansible sshpass`
 
 ## Usage
 
-## Spin up OpenNMS + test nodes
+## Spin up OpenNMS Horizon with test nodes
 
-In `./opennms/` is a `docker-compose` configuration to spin up an OpenNMS, and two Ubuntu clients locally on your computer.
-
+In `./horizon/` is a `docker-compose` configuration to spin up an OpenNMS Horizon, and two Ubuntu clients locally on your computer.
 
 To start the containers:
 ```
-cd opennms/
+cd horizon/
 docker-compose up -d
 ```
 
 ### IP addresses
 
-OpenNMS: 172.16.238.11
+OpenNMS Horizon: 172.16.238.11
 
 Node1: 172.16.238.12
 
@@ -38,8 +42,23 @@ In `./ansible` all ansible playbook, inventories and variables are stored.
 Example call:
 ```
 cd ansible
-ansible-playbook opennms-provision.yml -i inventory/department1
+ansible-playbook horizon-provision.yml -i inventory/department1
 ```
+
+When you run ansible the first time you probably get the following error message:
+
+```
+fatal: [node0]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host's fingerprint to your known_hosts file to manage this host."}
+fatal: [node1]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host's fingerprint to your known_hosts file to manage this host."}
+```
+
+Just add the SSH fingerprint with the following commands:
+
+```
+ssh 172.16.238.12
+ssh 172.16.238.13
+```
+You don't need to login, just adding the fingerprint to your `know_hosts` is enough.
 
 ## Hint from Mattermost chat about creating nodes
 
@@ -56,7 +75,7 @@ Flow for adding a node via APIs would be...
 ## Create a Requisition called fromCLI:
 
 ```
-curl -vv -u admin:admin -XPOST -H 'Content-type: application/xml' -d '@emptyReq.xml'  "http://opennms:8980/opennms/rest/requisitions"
+curl -vv -u admin:admin -XPOST -H 'Content-type: application/xml' -d '@emptyReq.xml'  "http://horizon:8980/opennms/rest/requisitions"
 Content of emptyReq.xml
 ```
 ```
@@ -67,7 +86,7 @@ Content of emptyReq.xml
 ## Create a ForeignSource for the Requisition fromCLI:
 
 ```
-curl -v -u admin -H 'Content-type: application/xml' -XPOST -d '@fromCLI-foreignSource.xml' "http://opennms:8980/opennms/rest/foreignSources"
+curl -v -u admin -H 'Content-type: application/xml' -XPOST -d '@fromCLI-foreignSource.xml' "http://horizon:8980/opennms/rest/foreignSources"
 ```
 
 Content of fromCLI-foreignSource.xml file
@@ -92,19 +111,19 @@ Content of fromCLI-foreignSource.xml file
 ## Import Requisition with rescanExisting=false
 
 ```
-curl -v -u admin -H 'Content-type: application/xml' -XPUT "http://opennms:8980/opennms/rest/requisitions/fromCLI/import?rescanExisting=false"
+curl -v -u admin -H 'Content-type: application/xml' -XPUT "http://horizon:8980/opennms/rest/requisitions/fromCLI/import?rescanExisting=false"
 ```
 
 ## Add SNMP Config for an ip-address
 
 ```
-curl -v -u admin -H 'Content-type: application/xml' -XPUT -d '@snmpInfo.xml' "http://opennms:8980/opennms/rest/snmpConfig/10.2.0.9"
+curl -v -u admin -H 'Content-type: application/xml' -XPUT -d '@snmpInfo.xml' "http://horizon:8980/opennms/rest/snmpConfig/10.2.0.9"
 ```
 
 ## Add a Node to Requisition
 
 ```
-curl -vv -u admin:admin -XPOST -H 'Content-type: application/xml' -d '@newNode.xml' "http://opennms:8980/opennms/rest/requisitions/fromCLI/nodes"
+curl -vv -u admin:admin -XPOST -H 'Content-type: application/xml' -d '@newNode.xml' "http://horizon:8980/opennms/rest/requisitions/fromCLI/nodes"
 ```
 
 ## Content of newNode.xml
@@ -119,5 +138,5 @@ curl -vv -u admin:admin -XPOST -H 'Content-type: application/xml' -d '@newNode.x
 ## Import with rescanExisting=false
 
 ```
-curl -v -u admin -H 'Content-type: application/xml' -XPUT "http://opennms:8980/opennms/rest/requisitions/fromCLI/import?rescanExisting=false"
+curl -v -u admin -H 'Content-type: application/xml' -XPUT "http://horizon:8980/opennms/rest/requisitions/fromCLI/import?rescanExisting=false"
 ```

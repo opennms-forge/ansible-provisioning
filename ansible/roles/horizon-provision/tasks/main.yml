@@ -1,9 +1,9 @@
 ---
 - name: Check if node is existent
   ansible.builtin.uri:
-    url: "{{ opennms.resturl }}/{{ opennms.nodeapi }}/{{ ansible_facts['hostname'] }}"
-    user: "{{ opennms.user }}"
-    password: "{{ opennms.password }}"
+    url: "{{ horizon.resturl }}/{{ horizon.nodeapi }}/{{ ansible_facts['hostname'] }}"
+    user: "{{ horizon.user }}"
+    password: "{{ horizon.password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
