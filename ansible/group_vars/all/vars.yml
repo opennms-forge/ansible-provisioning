@@ -3,5 +3,6 @@ horizon:
   resturl: http://172.16.238.11:8980/opennms/rest
   nodeapi: nodes
   requisitionsapi: requisitions
+  foreignSourcesapi: foreignSources
   user: admin
   password: admin
