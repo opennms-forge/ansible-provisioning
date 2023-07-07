@@ -1,6 +1,6 @@
 [nodes]
-node1 ansible_host=172.16.238.12
-node2 ansible_host=172.16.238.13
+node1 ansible_host=172.16.238.12 apache_port=80
+node2 ansible_host=172.16.238.13 apache_port=81
 
 [all:vars]
 stack=department1

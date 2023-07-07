@@ -37,6 +37,9 @@ Node2: 172.16.238.13
 
 ## Ansible
 
+
+### Horizon provisioning
+
 In `./ansible` all ansible playbook, inventories and variables are stored.
 
 Example call:
@@ -59,6 +62,17 @@ ssh 172.16.238.12
 ssh 172.16.238.13
 ```
 You don't need to login, just adding the fingerprint to your `know_hosts` is enough.
+
+### Deploying a web service
+
+The playbook `install-webserver.yml` installs an Apache webserver.
+We can choose `node1` or `node2` to install the packages.
+The nodes have different ports defined in their inventory.
+
+```
+cd ansible
+ansible-playbook install-webserver.yml --extra-vars "target=node2" -i inventory/department1/
+```
 
 ## Hint from Mattermost chat about creating nodes
 
