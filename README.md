@@ -1,7 +1,7 @@
 # Ansible provisioning into OpenNMS Horizon
 
 We have seen a lot of people managing their system configuration with Ansible.
-While this is a place where applications and monitoring agents get deployed, it is an ideal place to define how you want it to test during operations.
+While this is a place where applications and monitoring agents get deployed, it is an ideal place to define how you want it to be tested during operations.
 We think deploying applications serving in production and running operational tests, should be close together.
 This repository is a conceptual playground investigating how we use Ansible to drive the node inventory and the service monitoring in OpenNMS Horizon.
 
@@ -9,9 +9,15 @@ This repository is a conceptual playground investigating how we use Ansible to d
 
 ## Goal
 
-* Using environments like `dev`, `staging` and `prod` as a driver for requisitions as a node inventory in OpenNMS Horizon.
+* Using environments like `dev`, `staging`, and `prod` as a driver for requisitions as a node inventory in OpenNMS Horizon.
 * Providing a workflow to deploy applications and assign operational service tests together with the application deployment.
-* Give users some control in Ansible how the service needs to be monitored.
+* Give users some control in Ansible on how the service needs to be monitored.
+* The focus here is mainly on black box service testing in operation which is defined in OpenNMS Horizon as "Service" in the Poller daemon.
+* While Ansible is mostly used to deploy monitoring agents as well, e.g. Net-SNMP and Prometheus, we want to manage these services with Ansible in OpenNMS Horizon as well.
+* Use as much as possible the REST APIs provided in OpenNMS Horizon.
+
+## Design principle
+Users define in Ansible how services are deployed, it should also define how it is going to be tested in operation – no service detection in OpenNMS Horizon.
 
 ## Requirements
 
@@ -23,7 +29,7 @@ This repository is a conceptual playground investigating how we use Ansible to d
 
 ## Usage
 
-## Spin up OpenNMS Horizon with test nodes
+### Spin up OpenNMS Horizon with test nodes
 
 In `./horizon/` is a `docker-compose` configuration to spin up an OpenNMS Horizon, and two Ubuntu clients locally on your computer.
 
@@ -42,7 +48,7 @@ Node1: 172.16.238.12
 Node2: 172.16.238.13
 
 
-## Ansible
+### Ansible
 
 
 ### Horizon provisioning
