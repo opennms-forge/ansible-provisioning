@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- {{ ansible_managed }} -->
-<node building="ansible-inventory" foreign-id="{{ ansible_facts['machine_id'] }}" node-label="{{ ansible_facts['hostname'] }}">
+<node building="{{ stack }}-{{ env }}" foreign-id="{{ ansible_facts['machine_id'] }}" node-label="{{ ansible_facts['hostname'] }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
   <category name="{{ env }}"/>
   <category name="{{ stack }}"/>

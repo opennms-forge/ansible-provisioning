@@ -1,7 +1,7 @@
 ---
-- name: Check if node is existent
+- name: Check if requisition is existent
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/ansible-inventory/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: GET
@@ -9,30 +9,76 @@
     status_code: 200
   ignore_errors: true
   no_log: true
-  register: result
+  register: requisition_exists
+
+- name: REST call Create Requisition
+  ansible.builtin.uri:
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}"
+    user: "{{ horizon.user }}"
+    password: "{{ horizon.password }}"
+    method: POST
+    status_code: 202
+    headers:
+      Content-Type: "application/xml"
+    body: "{{lookup('template','requisitions_xml.j2')}}"
+  no_log: true
+  register: requisitions_created
+  when: requisition_exists.failed
+
+- name: REST call Create foreignSource
+  ansible.builtin.uri:
+    url: "{{ horizon.resturl }}/{{ horizon.foreignSourcesapi }}"
+    user: "{{ horizon.user }}"
+    password: "{{ horizon.password }}"
+    method: POST
+    status_code: 202
+    headers:
+      Content-Type: "application/xml"
+    body: "{{lookup('template','foreignSources_xml.j2')}}"
+#  no_log: true
+  register: requisitions_created
+  when: requisition_exists
+
+- name: Check if node is existent
+  ansible.builtin.uri:
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}"
+    user: "{{ horizon.user }}"
+    password: "{{ horizon.password }}"
+    method: GET
+    force_basic_auth: true
+    status_code: 200
+  ignore_errors: true
+  no_log: true
+  register: node_exists
+  when: requisitions_exists
+
 #- name: Print all available facts
 #  ansible.builtin.debug:
 #    var: ansible_facts
-#  when: result.failed
+#  when: node_exists.failed
+
 - name: REST call Create Node
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/ansible-inventory/nodes"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/nodes"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
-    method: POST  
+    method: POST
     status_code: 202
-    headers: 
-      Content-Type: "application/xml" 
-    body: "{{lookup('template','node_xml.j2')}}" 
+    headers:
+      Content-Type: "application/xml"
+    body: "{{lookup('template','node_xml.j2')}}"
+  no_log: true
   register: node_created
-  when: result.failed
+  when: node_exists.failed
+
 - name: synchronize_requisition
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/ansible-inventory/import?rescanExisting=false"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/import?rescanExisting=false"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: PUT
     status_code: 202
-    headers: 
+    headers:
       Content-Type: "application/xml"
+  no_log: true
   when: node_created
