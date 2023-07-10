@@ -2,9 +2,16 @@
 
 We have seen a lot of people managing their system configuration with Ansible.
 While this is a place where applications and monitoring agents get deployed, it is an ideal place to define how you want it to test during operations.
+We think deploying applications serving in production and running operational tests, should be close together.
 This repository is a conceptual playground investigating how we use Ansible to drive the node inventory and the service monitoring in OpenNMS Horizon.
 
 ![Ansible-Provisioning.png](Ansible-Provisioning.png)
+
+## Goal
+
+* Using environments like `dev`, `staging` and `prod` as a driver for requisitions as a node inventory in OpenNMS Horizon.
+* Providing a workflow to deploy applications and assign operational service tests together with the application deployment.
+* Give users some control in Ansible how the service needs to be monitored.
 
 ## Requirements
 
