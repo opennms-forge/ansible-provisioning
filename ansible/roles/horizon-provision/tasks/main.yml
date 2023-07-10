@@ -52,11 +52,6 @@
   register: node_exists
   when: requisitions_exists
 
-#- name: Print all available facts
-#  ansible.builtin.debug:
-#    var: ansible_facts
-#  when: node_exists.failed
-
 - name: REST call Create Node
   ansible.builtin.uri:
     url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/nodes"
@@ -67,18 +62,38 @@
     headers:
       Content-Type: "application/xml"
     body: "{{lookup('template','node_xml.j2')}}"
-  no_log: true
+  no_log: false
   register: node_created
-  when: node_exists.failed
+  changed_when: true
+  notify: Sync requisition
+  when: node_exists 
 
-- name: synchronize_requisition
+
+- name: Check if service is existent
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/import?rescanExisting=false"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/HTTP"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
-    method: PUT
+    method: GET
+    force_basic_auth: true
+    status_code: 200
+  ignore_errors: true
+  no_log: false
+  register: service_exists
+  when: node_exists
+
+- name: REST call Create service
+  ansible.builtin.uri:
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/"
+    user: "{{ horizon.user }}"
+    password: "{{ horizon.password }}"
+    method: POST
     status_code: 202
     headers:
       Content-Type: "application/xml"
-  no_log: true
-  when: node_created
+    body: "{{lookup('template','services_xml.j2')}}"
+  no_log: false
+  register: service_created
+  when: service_exists.failed
+  changed_when: true
+  notify: Sync requisition
