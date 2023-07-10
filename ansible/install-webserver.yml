@@ -1,0 +1,22 @@
+---
+- name: Install Webserver
+  hosts: '{{ target }}'
+  become: true
+  tasks:
+    - name: install apache2
+      apt: name=apache2 update_cache=yes state=latest
+    - name: enabled mod_rewrite
+      apache2_module: name=rewrite state=present
+      notify:
+        - restart apache2
+    - name: apache2 listen on port {{ apache_port }}
+      lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen.*" line="Listen {{ apache_port }}" state=present
+      notify:
+        - restart apache2
+    - name: apache2 virtualhost on port {{ apache_port }}
+      lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="^<VirtualHost \*:.*>" line="<VirtualHost *:{{ apache_port }}>" state=present
+      notify:
+        - restart apache2
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted

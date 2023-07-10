@@ -38,6 +38,17 @@ To start the containers:
 cd horizon/
 docker-compose up -d
 ```
+### Deploying a web service
+
+The playbook `install-webserver.yml` installs an Apache webserver.
+We can choose `node1` or `node2` to install the packages.
+The nodes have different ports defined in their inventory.
+
+Example:
+```
+cd ansible
+ansible-playbook install-webserver.yml --extra-vars "target=node2" -i inventory/stack1-dev/
+```
 
 ### IP addresses
 
@@ -52,10 +63,10 @@ Node2: 172.16.238.13
 
 In `./ansible` all ansible playbook, inventories and variables are stored.
 
-Example call:
+Example:
 ```
 cd ansible
-ansible-playbook horizon-provision.yml -i inventory/department1
+ansible-playbook horizon-provision.yml -i inventory/stack1-dev
 ```
 
 When you run ansible the first time you probably get the following error message:
