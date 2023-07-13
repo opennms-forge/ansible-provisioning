@@ -9,12 +9,9 @@ nodes:
         HTTP-8080:
           port: 8080
           path: "/"
+        ICMP:
       ansible_host: 172.16.238.12
     node2:
-      services:
-        HTTP:
-          port: 81
-          path: "/"
       ansible_host: 172.16.238.13
       apache_port: 81
 

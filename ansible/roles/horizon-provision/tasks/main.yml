@@ -65,7 +65,7 @@
   no_log: false
   register: node_created
   changed_when: true
-  notify: Sync requisition
+  #notify: Sync requisition
   when: node_exists 
 
 
@@ -97,5 +97,15 @@
   register: service_created
   when: service_exists.failed
   changed_when: true
-  notify: Sync requisition
+  #notify: Sync requisition
   loop: "{{ services | list }}"
+
+- name: Sync requisition
+  ansible.builtin.uri:
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/import?rescanExisting=true"
+    user: "{{ horizon.user }}"
+    password: "{{ horizon.password }}"
+    method: PUT
+    status_code: 202
+    headers:
+      Content-Type: "application/xml"
