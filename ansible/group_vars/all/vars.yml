@@ -4,5 +4,6 @@ horizon:
   nodeapi: nodes
   requisitionsapi: requisitions
   foreignSourcesapi: foreignSources
+  interfacesapi: interfaces
   user: admin
   password: admin

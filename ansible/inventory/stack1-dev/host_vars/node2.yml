@@ -1,0 +1,6 @@
+---
+services:
+  ICMP:
+  HTTP:
+    port: 81
+    path: "/"
