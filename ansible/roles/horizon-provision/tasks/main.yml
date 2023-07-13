@@ -71,16 +71,17 @@
 
 - name: Check if service is existent
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/HTTP"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/{{ item }}"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
   ignore_errors: true
-  no_log: false
+  no_log: true
   register: service_exists
   when: node_exists
+  loop: "{{ services | list }}"
 
 - name: REST call Create service
   ansible.builtin.uri:
@@ -92,8 +93,9 @@
     headers:
       Content-Type: "application/xml"
     body: "{{lookup('template','services_xml.j2')}}"
-  no_log: false
+  no_log: true
   register: service_created
   when: service_exists.failed
   changed_when: true
   notify: Sync requisition
+  loop: "{{ services | list }}"
