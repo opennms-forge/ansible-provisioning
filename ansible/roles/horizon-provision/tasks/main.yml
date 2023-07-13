@@ -64,8 +64,6 @@
     body: "{{lookup('template','node_xml.j2')}}"
   no_log: false
   register: node_created
-  changed_when: true
-  #notify: Sync requisition
   when: node_exists 
 
 
@@ -96,8 +94,6 @@
   no_log: true
   register: service_created
   when: service_exists.failed
-  changed_when: true
-  #notify: Sync requisition
   loop: "{{ services | list }}"
 
 - name: Sync requisition
