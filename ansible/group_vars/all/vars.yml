@@ -14,6 +14,7 @@ horizon:
   password: admin
 services:
   ICMP:
+  SNMP:
   "HTTP-{{ http_port }}":
     port: "{{ http_port }}"
     path: "/"
