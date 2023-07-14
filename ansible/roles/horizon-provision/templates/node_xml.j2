@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- {{ ansible_managed }} -->
-<node building="{{ stack }}-{{ env }}" foreign-id="{{ ansible_facts['machine_id'] }}" node-label="{{ ansible_facts['hostname'] }}">
+<node building="{{ requisition }}" foreign-id="{{ ansible_facts['machine_id'] }}" node-label="{{ ansible_facts['hostname'] }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
   <category name="{{ env }}"/>
-  <category name="{{ stack }}"/>
+  <category name="{{ requisition }}"/>
   <asset name="serialNumber" value="{{ ansible_facts['product_serial'] }}"/>
   <asset name="modelNumber" value="{{ ansible_facts['product_name'] }}"/>
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
   <meta-data context="node" key="env" value="{{ env }}"/>
-  <meta-data context="node" key="stack" value="{{ stack }}"/>
 </node>

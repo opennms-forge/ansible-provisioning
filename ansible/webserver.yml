@@ -1,0 +1,5 @@
+# file: webserver.yml
+
+- hosts: webserver
+  roles:
+    - apache2
