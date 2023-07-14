@@ -13,6 +13,6 @@ horizon:
   password: admin
 services:
   ICMP:
-  HTTP:
+  "HTTP-{{ http_port }}":
     port: "{{ http_port }}"
     path: "/"
