@@ -3,6 +3,7 @@ ansible_connection: ssh
 ansible_user: ubuntu
 ansible_ssh_pass: ubuntu
 requisition: stack1-{{ env }}
+snmpd_inform_sink: 172.16.238.10
 horizon:
   resturl: http://172.16.238.11:8980/opennms/rest
   nodeapi: nodes

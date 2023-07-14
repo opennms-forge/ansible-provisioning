@@ -1,0 +1,56 @@
+---
+- name: Install snmpd packages
+  apt: name=snmpd state=present
+  tags: [ 'net-snmp' ]
+
+- name: Ensures {{ snmpd_include_dir }} dir exists
+  file: path={{ snmpd_include_dir }} state=directory
+  tags: [ 'net-snmp' ]
+
+- name: Ensures {{ snmpd_extend_dir }} dir exists
+  file: path={{ snmpd_extend_dir }} state=directory
+  tags: [ 'net-snmp' ]
+
+- name: Set snmpd default settings
+  copy: src=files/etc/snmpd.default dest=/etc/default/snmpd owner=root group=root mode="0640"
+  tags: [ 'net-snmp' ]
+
+- name: Copy the snmpd.conf template file
+  template: src=snmpd.conf.j2 dest=/etc/snmp/snmpd.conf
+  notify:
+  - restart {{ snmpd_service_name }}
+  tags: [ 'net-snmp' ]
+
+- name: Copy the active monitoring template file
+  template: src=active.conf.j2 dest={{ snmpd_include_dir }}/active.conf
+  notify:
+  - restart {{ snmpd_service_name }}
+  tags: [ 'net-snmp' ]
+  
+- name: Enable disk monitoring
+  template: src=disk.conf.j2 dest={{ snmpd_include_dir }}/disk.conf
+  notify:
+  - restart {{ snmpd_service_name }}
+  tags: [ 'net-snmp' ]
+
+- name: Enable process monitoring
+  template: src=proc.conf.j2 dest={{ snmpd_include_dir }}/proc.conf
+  notify:
+  - restart {{ snmpd_service_name }}
+  tags: [ 'net-snmp' ]
+
+- name: Copy the Trap Inform template file
+  template: src=inform.conf.j2 dest={{ snmpd_include_dir }}/inform.conf
+  notify:
+  - restart {{ snmpd_service_name }}
+  tags: [ 'net-snmp' ]
+
+- name: Copy the sysinfo inform template file
+  template: src=sysinfo.conf.j2 dest={{ snmpd_include_dir }}/sysinfo.conf
+  notify:
+  - restart {{ snmpd_service_name }}
+  tags: [ 'net-snmp' ]
+
+- name: Ensure snmpd is running and enabled
+  service: name=snmpd state=present enabled=true
+  tags: [ 'net-snmp' ]

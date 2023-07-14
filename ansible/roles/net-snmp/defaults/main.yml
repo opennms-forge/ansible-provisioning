@@ -1,0 +1,10 @@
+---
+snmpd_disks: ['/ 5000000']
+snmpd_procs: ['sshd']
+
+snmpd_include_dir: '/etc/snmp/conf.d'
+snmpd_community: public
+snmpd_port: 161
+snmpd_inform_sink:  127.0.0.1
+snmpd_syslocation: 'Sittin in a dock at the bay'
+snmpd_syscontact: 'root@localhost'
