@@ -66,7 +66,6 @@
   register: node_created
   when: node_exists 
 
-
 - name: Check if service is existent
   ansible.builtin.uri:
     url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/{{ item }}"

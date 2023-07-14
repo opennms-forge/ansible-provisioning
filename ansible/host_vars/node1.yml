@@ -1,10 +1,2 @@
 ---
 ansible_host: 172.16.238.12
-services:
-  HTTP:
-    port: 80
-    path: "/"
-  HTTP-8080:
-    port: 8080
-    path: "/"
-  ICMP:

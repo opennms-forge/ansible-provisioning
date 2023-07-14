@@ -11,3 +11,8 @@ horizon:
   interfacesapi: interfaces
   user: admin
   password: admin
+services:
+  ICMP:
+  HTTP:
+    port: "{{ http_port }}"
+    path: "/"
