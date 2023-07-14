@@ -1,5 +1,5 @@
 # Build Ubuntu image with base functionality.
-FROM ubuntu:focal AS ubuntu-base
+FROM ubuntu:jammy AS ubuntu-base
 ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -16,10 +16,13 @@ ENV MACHINE_ID ""
 
 # Install required tools.
 RUN apt-get -qq update \
-    && apt-get -qq --no-install-recommends install vim-tiny=2:8.1.* \
-    && apt-get -qq --no-install-recommends install sudo=1.8.* \
-    && apt-get -qq --no-install-recommends install python3-pip=20.0.* \
-    && apt-get -qq --no-install-recommends install openssh-server=1:8.* \
+    && apt-get -qq --no-install-recommends install vim-tiny \
+    && apt-get -qq --no-install-recommends install sudo \
+    && apt-get -qq --no-install-recommends install python3-pip \
+    && apt-get -qq --no-install-recommends install openssh-server \
+    && apt-get -qq --no-install-recommends install iproute2 \
+    && apt-get -qq --no-install-recommends install inetutils-ping \
+    && apt-get -qq --no-install-recommends install dnsutils \
     && apt-get -qq clean \
     && rm -rf /var/lib/apt/lists/*
 
