@@ -47,7 +47,7 @@ The nodes have different ports defined in their inventory.
 Example:
 ```
 cd ansible
-ansible-playbook install-webserver.yml --extra-vars "target=node2" -i inventory/stack1-dev/
+ansible-playbook -i inventory 01-webserver.yml
 ```
 
 ### IP addresses
@@ -66,7 +66,7 @@ In `./ansible` all ansible playbook, inventories and variables are stored.
 Example:
 ```
 cd ansible
-ansible-playbook horizon-provision.yml -i inventory/stack1-dev
+ansible-playbook -i inventory stack.yml
 ```
 
 When you run ansible the first time you probably get the following error message:
