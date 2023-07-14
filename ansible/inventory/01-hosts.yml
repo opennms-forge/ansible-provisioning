@@ -1,3 +1,4 @@
+---
 all:
   children:
     webserver:
@@ -7,10 +8,4 @@ all:
     monitoring:
       hosts:
         node1:
-        node2:
-    prod:
-      hosts:
-        node1:
-    staging:
-      hosts:
         node2:

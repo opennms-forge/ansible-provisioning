@@ -1,8 +1,0 @@
----
-ansible_host: 172.16.238.13
-apache_port: 81
-services:
-  ICMP:
-  HTTP:
-    port: 81
-    path: "/"

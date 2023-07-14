@@ -1,7 +1,7 @@
 ---
 - name: Sync requisition
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}-{{ env }}/import?rescanExisting=true"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/import?rescanExisting=true"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: PUT

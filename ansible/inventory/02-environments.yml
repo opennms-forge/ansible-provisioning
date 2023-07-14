@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    prod:
+      hosts:
+        node1:
+    staging:
+      hosts:
+        node2:

@@ -1,5 +1,6 @@
 # file: webserver.yml
 
 - hosts: webserver
+  become: true
   roles:
     - apache2

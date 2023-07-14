@@ -3,7 +3,6 @@
 <node building="{{ requisition }}" foreign-id="{{ ansible_facts['machine_id'] }}" node-label="{{ ansible_facts['hostname'] }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
   <category name="{{ env }}"/>
-  <category name="{{ requisition }}"/>
   <asset name="serialNumber" value="{{ ansible_facts['product_serial'] }}"/>
   <asset name="modelNumber" value="{{ ansible_facts['product_name'] }}"/>
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>

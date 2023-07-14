@@ -1,6 +1,6 @@
 ---
 ansible_host: 172.16.238.13
-apache_port: 81
+http_port: 81
 services:
   ICMP:
   HTTP:

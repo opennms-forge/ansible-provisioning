@@ -41,7 +41,7 @@
 
 - name: Check if node is existent
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{  }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: GET
