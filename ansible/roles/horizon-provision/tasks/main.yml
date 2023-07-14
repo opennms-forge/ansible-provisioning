@@ -1,7 +1,7 @@
 ---
 - name: Check if requisition is existent
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: GET
@@ -41,7 +41,7 @@
 
 - name: Check if node is existent
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: GET
@@ -54,7 +54,7 @@
 
 - name: REST call Create Node
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/nodes"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/nodes"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: POST
@@ -69,7 +69,7 @@
 
 - name: Check if service is existent
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/{{ item }}"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/{{ item }}"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: GET
@@ -83,7 +83,7 @@
 
 - name: REST call Create service
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: POST
@@ -98,7 +98,7 @@
 
 - name: Sync requisition
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ stack }}-{{ env }}/import?rescanExisting=true"
+    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/import?rescanExisting=true"
     user: "{{ horizon.user }}"
     password: "{{ horizon.password }}"
     method: PUT

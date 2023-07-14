@@ -1,7 +1,9 @@
 ---
-- name: OpenNMS Horizon Provisioning
-  hosts: nodes
-  become: true
+# file: horizon-provision.yaml
+
+- hosts: monitoring
   gather_facts: true
+  become: true
   roles:
-  - horizon-provision
+    - horizon-provision
+

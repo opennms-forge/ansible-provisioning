@@ -1,0 +1,4 @@
+# file: stack.yml
+
+- import_playbook: horizon-provision.yml
+- import_playbook: webserver.yml

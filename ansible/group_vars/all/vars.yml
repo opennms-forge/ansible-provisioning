@@ -1,4 +1,8 @@
 ---
+ansible_connection: ssh
+ansible_user: ubuntu
+ansible_ssh_pass: ubuntu
+requisition: stack1-{{ env }}
 horizon:
   resturl: http://172.16.238.11:8980/opennms/rest
   nodeapi: nodes

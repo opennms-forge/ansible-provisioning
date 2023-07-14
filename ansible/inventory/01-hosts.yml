@@ -1,0 +1,11 @@
+---
+all:
+  children:
+    webserver:
+      hosts:
+        node1:
+        node2:
+    monitoring:
+      hosts:
+        node1:
+        node2:
