@@ -15,6 +15,6 @@ horizon:
 services:
   ICMP:
   SNMP:
-  "HTTP-{{ http_port }}":
+  HTTP.MyApp:
     port: "{{ http_port }}"
     path: "/"
