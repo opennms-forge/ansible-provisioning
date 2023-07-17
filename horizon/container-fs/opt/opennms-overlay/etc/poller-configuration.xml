@@ -110,7 +110,7 @@
          <parameter key="oid" value=".1.3.6.1.2.1.1.2.0"/>
       </service>
       <service name="HTTP" interval="300000" user-defined="false" status="on">
-         <pattern><![CDATA[^HTTP\..*$]]></pattern>
+         <pattern><![CDATA[^HTTP..*$]]></pattern>
          <parameter key="retry" value="${requisition:retry|1}"/>
          <parameter key="timeout" value="${requisition:timeout|3000}"/>
          <parameter key="port" value="${requisition:port|80}"/>
@@ -120,7 +120,7 @@
          <parameter key="ds-name" value="http"/>
       </service>
       <service name="HTTPS" interval="300000" user-defined="false" status="on">
-         <pattern><![CDATA[^HTTPS\..*$]]></pattern>
+         <pattern><![CDATA[^HTTPS..*$]]></pattern>
          <parameter key="retry" value="${requisition:retry|1}"/>
          <parameter key="timeout" value="${requisition:timeout|3000}"/>
          <parameter key="port" value="${requisition:port|443}"/>
