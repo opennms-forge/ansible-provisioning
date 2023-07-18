@@ -64,7 +64,7 @@
     body: "{{lookup('template','node_xml.j2')}}"
   no_log: false
   register: node_created
-  when: node_exists 
+  when: node_exists.failed 
 
 - name: Check if service is existent
   ansible.builtin.uri:
@@ -75,10 +75,22 @@
     force_basic_auth: true
     status_code: 200
   ignore_errors: true
-  no_log: true
+  no_log: false
   register: service_exists
   when: node_exists
-  loop: "{{ services | list }}"
+  with_items: "{{ onms_group_services | combine(onms_host_services) }}"
+
+- name: Show items
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
+  tags: [ "horizon" ]
+
+- name: Show templating results
+  ansible.builtin.debug:
+     msg: "{{ lookup('ansible.builtin.template', 'services_xml.j2') }}"
+  with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
+  tags: [ "horizon" ]
 
 - name: REST call Create service
   ansible.builtin.uri:
@@ -89,11 +101,11 @@
     status_code: 202
     headers:
       Content-Type: "application/xml"
-    body: "{{lookup('template','services_xml.j2')}}"
-  no_log: true
+    body: "{{ lookup('template','services_xml.j2') }}"
+  no_log: false
   register: service_created
   when: service_exists.failed
-  loop: "{{ services | list }}"
+  with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
 
 - name: Sync requisition
   ansible.builtin.uri:

@@ -1,4 +1,5 @@
-# file: stack.yml
+# file: site.yml
 
 - import_playbook: 01-webserver.yml
+- import_playbook: 02-net-snmp.yml
 - import_playbook: 99-horizon-provision.yml
