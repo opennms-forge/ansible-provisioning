@@ -19,6 +19,7 @@ RUN apt-get -qq update \
     && apt-get -qq --no-install-recommends install vim-tiny \
     && apt-get -qq --no-install-recommends install sudo \
     && apt-get -qq --no-install-recommends install python3-pip \
+    && apt-get -qq --no-install-recommends install python3-apt \
     && apt-get -qq --no-install-recommends install openssh-server \
     && apt-get -qq --no-install-recommends install iproute2 \
     && apt-get -qq --no-install-recommends install inetutils-ping \

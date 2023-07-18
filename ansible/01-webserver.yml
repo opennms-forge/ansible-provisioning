@@ -4,3 +4,10 @@
   become: true
   roles:
     - apache2
+  tasks:
+    - debug:
+        var: onms_group_services
+    - debug:
+        var: onms_host_services
+    - debug:
+        var: onms_group_services | combine(onms_host_services)

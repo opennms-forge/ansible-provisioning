@@ -1,11 +1,9 @@
----
-# file: horizon-provision.yaml
+# file: 02-net-snmp.yml
 
-- hosts: monitoring
-  gather_facts: true
+- hosts: all
   become: true
   roles:
-    - horizon-provision
+    - net-snmp
   tasks:
     - debug:
         var: onms_group_services

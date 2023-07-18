@@ -14,13 +14,13 @@ horizon:
   user: admin
   password: admin
 
-# General node settings
+# Monitoring configuration
 snmpd_inform_sink: 172.16.238.10
 requisition: stack1-{{ env }}
-services:
-  ICMP:
-  SNMP:
-  HTTP.MyApp:
-    port: "{{ http_port }}"
-    path: "/"
 horizon_node_location: "Default"
+
+onms_group_services:
+   ICMP: {}
+   SNMP: {}
+
+onms_host_services: {}
