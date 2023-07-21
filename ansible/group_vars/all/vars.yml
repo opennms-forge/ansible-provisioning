@@ -1,9 +1,10 @@
 ---
+# Ansible node settings
 ansible_connection: ssh
 ansible_user: ubuntu
 ansible_ssh_pass: ubuntu
-requisition: stack1-{{ env }}
-snmpd_inform_sink: 172.16.238.10
+
+# Horizon server settings
 horizon:
   resturl: http://172.16.238.11:8980/opennms/rest
   nodeapi: nodes
@@ -12,9 +13,14 @@ horizon:
   interfacesapi: interfaces
   user: admin
   password: admin
+
+# General node settings
+snmpd_inform_sink: 172.16.238.10
+requisition: stack1-{{ env }}
 services:
   ICMP:
   SNMP:
   HTTP.MyApp:
     port: "{{ http_port }}"
     path: "/"
+horizon_node_location: "Default"
