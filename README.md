@@ -9,7 +9,7 @@ This repository is a conceptual playground investigating how we use Ansible to d
 
 ## Goal
 
-* Using environments like `dev`, `staging`, and `prod` as a driver for requisitions as a node inventory in OpenNMS Horizon.
+* Using environments like `develop`, `staging`, and `production` as a driver for requisitions as a node inventory in OpenNMS Horizon.
 * Providing a workflow to deploy applications and assign operational service tests together with the application deployment.
 * Give users some control in Ansible on how the service needs to be monitored.
 * The focus here is mainly on black box service testing in operation which is defined in OpenNMS Horizon as "Service" in the Poller daemon.
@@ -27,6 +27,16 @@ Users define in Ansible how services are deployed, it should also define how it 
 
 `sudo apt install ansible sshpass`
 
+## Ansible Playground
+
+The docker based playground has 3 nodes:
+
+* OpenNMS Horizon: 172.16.238.11
+* Node1: 172.16.238.12
+* Node2: 172.16.238.13
+
+Node1 and Node2 are used to simulate two Linux server to deploy applications and use it to do some service monitoring.
+
 ## Usage
 
 ### Spin up OpenNMS Horizon with test nodes
@@ -38,35 +48,17 @@ To start the containers:
 cd horizon/
 docker-compose up -d
 ```
-### Deploying a web service
-
-The playbook `install-webserver.yml` installs an Apache webserver.
-We can choose `node1` or `node2` to install the packages.
-The nodes have different ports defined in their inventory.
-
-Example:
-```
-cd ansible
-ansible-playbook -i inventory 01-webserver.yml
-```
-
-### IP addresses
-
-OpenNMS Horizon: 172.16.238.11
-
-Node1: 172.16.238.12
-
-Node2: 172.16.238.13
-
+Wait until you can login to the Web UI which provides also the required REST endpoints.
 
 ### Ansible
 
 In `./ansible` all ansible playbook, inventories and variables are stored.
+Running a full deployment for Net-SNMP and a web server on Node1 and Node2 run the following command:
 
 Example:
 ```
 cd ansible
-ansible-playbook -i inventory stack.yml
+ansible-playbook -i inventory site.yml
 ```
 
 When you run ansible the first time you probably get the following error message:
