@@ -1,9 +1,9 @@
 ---
-- name: Check if requisition is existent
+- name: "Verify if requisitions exists"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
@@ -11,11 +11,11 @@
   no_log: true
   register: requisition_exists
 
-- name: REST call Create Requisition
+- name: "Create requisitions"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: POST
     status_code: 202
     headers:
@@ -25,25 +25,25 @@
   register: requisitions_created
   when: requisition_exists.failed
 
-- name: REST call Create foreignSource
+- name: "Create policies and detectors for requisitions (foreign-sources)"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.foreignSourcesapi }}"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.foreign_sources_api }}"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: POST
     status_code: 202
     headers:
       Content-Type: "application/xml"
     body: "{{lookup('template','foreignSources_xml.j2')}}"
-#  no_log: true
+  no_log: true
   register: requisitions_created
   when: requisition_exists
 
-- name: Check if node is existent
+- name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] }}"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
@@ -52,51 +52,39 @@
   register: node_exists
   when: requisitions_exists
 
-- name: REST call Create Node
+- name: "Create nodes in requisitions"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/nodes"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/nodes"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: POST
     status_code: 202
     headers:
       Content-Type: "application/xml"
     body: "{{lookup('template','node_xml.j2')}}"
-  no_log: false
+  no_log: true
   register: node_created
   when: node_exists.failed 
 
-- name: Check if service is existent
+- name: "Verify if monitored services exists"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/{{ item }}"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
   ignore_errors: true
-  no_log: false
+  no_log: true
   register: service_exists
   when: node_exists
   with_items: "{{ onms_group_services | combine(onms_host_services) }}"
 
-- name: Show items
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
-  tags: [ "horizon" ]
-
-- name: Show templating results
-  ansible.builtin.debug:
-     msg: "{{ lookup('ansible.builtin.template', 'services_xml.j2') }}"
-  with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
-  tags: [ "horizon" ]
-
-- name: REST call Create service
+- name: "Create monitored services"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/{{ horizon.nodeapi }}/{{ ansible_facts['machine_id'] }}/{{ horizon.interfacesapi }}/{{ ansible_host }}/services/"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: POST
     status_code: 202
     headers:
@@ -107,11 +95,11 @@
   when: service_exists.failed
   with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
 
-- name: Sync requisition
+- name: "Import requisitions"
   ansible.builtin.uri:
-    url: "{{ horizon.resturl }}/{{ horizon.requisitionsapi }}/{{ requisition }}/import?rescanExisting=true"
-    user: "{{ horizon.user }}"
-    password: "{{ horizon.password }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/import?rescanExisting=true"
+    user: "{{ onms_hzn.user }}"
+    password: "{{ onms_hzn.password }}"
     method: PUT
     status_code: 202
     headers:

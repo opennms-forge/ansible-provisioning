@@ -4,20 +4,21 @@ ansible_connection: ssh
 ansible_user: ubuntu
 ansible_ssh_pass: ubuntu
 
-# Horizon server settings
-horizon:
-  resturl: http://172.16.238.11:8980/opennms/rest
-  nodeapi: nodes
-  requisitionsapi: requisitions
-  foreignSourcesapi: foreignSources
-  interfacesapi: interfaces
+# Monitoring configuration
+snmpd_inform_sink: 172.16.238.10
+
+# OpenNMS Horizon server settings
+onms_hzn:
+  base_rest_url: http://172.16.238.11:8980/opennms/rest
+  node_api: nodes
+  requisitions_api: requisitions
+  foreign_sources_api: foreignSources
+  interfaces_api: interfaces
   user: admin
   password: admin
 
-# Monitoring configuration
-snmpd_inform_sink: 172.16.238.10
-requisition: stack1-{{ env }}
-horizon_node_location: "Default"
+onms_requisition: stack1-{{ env }}
+onms_location: "Default"
 
 onms_group_services:
    ICMP: {}

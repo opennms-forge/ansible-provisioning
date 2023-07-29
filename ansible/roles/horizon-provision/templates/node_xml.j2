@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- {{ ansible_managed }} -->
-<node location="{{ horizon_node_location }}" building="{{ requisition }}" foreign-id="{{ ansible_facts['machine_id'] }}" node-label="{{ ansible_facts['hostname'] }}">
+<node location="{{ onms_location }}" building="{{ onms_requisition }}" foreign-id="{{ ansible_facts['machine_id'] }}" node-label="{{ ansible_facts['hostname'] }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
   <category name="{{ env }}"/>
   <asset name="serialNumber" value="{{ ansible_facts['product_serial'] }}"/>
