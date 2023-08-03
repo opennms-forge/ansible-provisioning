@@ -1,13 +1,14 @@
-# Ansible provisioning into OpenNMS Horizon
+# 🚀 Ansible provisioning into OpenNMS Horizon ✨
 
-We have seen a lot of people managing their system configuration with Ansible.
-While this is a place where applications and monitoring agents get deployed, it is an ideal place to define how you want it to be tested during operations.
-We think deploying applications serving in production and running operational tests, should be close together.
-This repository is a conceptual playground investigating how we use Ansible to drive the node inventory and the service monitoring in OpenNMS Horizon.
+Encoding your infrastructure using Ansible is widely adopted.
+Ansible knows where, what and how you want to run your applications and infrastructure components.
+We think getting hooked into these workflows is an ideal place to define how you want to monitor your infrastructure and applications during operation.
+This repository is a conceptual playground investigating how we can use Ansible to fill the node inventory, define the service monitoring.
+With Ansibles customization capabilities we can also investigate enrichment of nodes and services to drive notification workflows for alerting.
 
 ![Ansible-Provisioning.png](Ansible-Provisioning.png)
 
-## Goal
+## 🎯 Goal
 
 * Using environments like `develop`, `staging`, and `production` as a driver for requisitions as a node inventory in OpenNMS Horizon.
 * Providing a workflow to deploy applications and assign operational service tests together with the application deployment.
@@ -16,10 +17,17 @@ This repository is a conceptual playground investigating how we use Ansible to d
 * While Ansible is mostly used to deploy monitoring agents as well, e.g. Net-SNMP and Prometheus, we want to manage these services with Ansible in OpenNMS Horizon as well.
 * Use as much as possible the REST APIs provided in OpenNMS Horizon.
 
-## Design principle
+## 🗺 Design principle
 Users define in Ansible how services are deployed, it should also define how it is going to be tested in operation – no service detection in OpenNMS Horizon.
 
-## Requirements
+## 👋 Say hello
+If you have ideas and you are excited we are happy to talk to you.
+You can find us in following places:
+* Public [Mattermost Chat](https://chat.opennms.com/opennms/channels/opennms-discussion)
+* If you have longer discussions to share ideas use our [OpenNMS Discourse](https://opennms.discourse.group) and tag your post with `sig-ansible`.
+* What are we doing is described in the [Project board](https://github.com/orgs/opennms-forge/projects/2)
+
+## 💾 Requirements for this playground
 
 * Ansible
 * sshpass
@@ -27,7 +35,7 @@ Users define in Ansible how services are deployed, it should also define how it 
 
 `sudo apt install ansible sshpass`
 
-## Ansible Playground
+## 🎢 Ansible Playground
 
 The docker based playground has 3 nodes:
 
@@ -37,7 +45,7 @@ The docker based playground has 3 nodes:
 
 Node1 and Node2 are used to simulate two Linux server to deploy applications and use it to do some service monitoring.
 
-## Usage
+## 🕹️ Usage
 
 ### Spin up OpenNMS Horizon with test nodes
 
