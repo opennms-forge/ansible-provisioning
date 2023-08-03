@@ -3,4 +3,4 @@ env: staging
 http_port: 81
 
 # OpenNMS Horizon provision policies
-policies: {} # Needs to be defined as empty to not cause the task to fail. 
+onms_policies: {} # Needs to be defined as empty to not cause the task to fail. 

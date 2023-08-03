@@ -3,7 +3,7 @@ env: production
 http_port: 80
 
 # OpenNMS Horizon provision policies
-policies:
+onms_policies:
   # There are often special interfaces for that we don't want to collect data/monitor
   ignore_interfaces:
     class: org.opennms.netmgt.provision.persist.policies.MatchingSnmpInterfacePolicy

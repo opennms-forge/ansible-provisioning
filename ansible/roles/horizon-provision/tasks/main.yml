@@ -38,7 +38,7 @@
   no_log: true
   register: requisitions_created
   when: requisition_exists
-  with_dict: "{{ policies }}"
+  with_dict: "{{ onms_policies }}"
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
