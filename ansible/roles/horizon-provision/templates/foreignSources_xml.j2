@@ -3,5 +3,13 @@
 <foreign-source name="{{ onms_requisition }}" date-stamp="2023-07-07T08:11:30.522-04:00">
   <scan-interval>1d</scan-interval>
   <detectors/>
-  <policies/>
+  <policies>
+    {% for (policies, policy) in onms_policies.items() %}
+    <policy name="{{ policies }}" class="{{ policy.class }}">
+        {%- for (key, value) in policy.parameters.items() %}
+        <parameter key="{{ key }}" value="{{ value }}"/>
+        {%- endfor %}
+    </policy>
+    {% endfor %}
+  </policies>
 </foreign-source>
