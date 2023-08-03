@@ -63,9 +63,10 @@
     headers:
       Content-Type: "application/xml"
     body: "{{lookup('template','node_xml.j2')}}"
-  no_log: true
+  no_log: false
   register: node_created
-  when: node_exists.failed 
+  when: node_exists.failed
+  with_items: "{{ additional_ip_interfaces | list }}"
 
 - name: "Verify if monitored services exists"
   ansible.builtin.uri:

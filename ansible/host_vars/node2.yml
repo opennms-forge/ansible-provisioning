@@ -1,5 +1,6 @@
 ---
 ansible_host: 172.16.238.13
+additional_ip_interfaces: {} # Needs to be defined as empty to not cause the node creation task to fail
 onms_location: "Default"
 onms_host_services:
   HTTP.MyApp:

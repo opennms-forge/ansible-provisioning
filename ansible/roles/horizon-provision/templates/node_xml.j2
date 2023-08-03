@@ -7,4 +7,7 @@
   <asset name="modelNumber" value="{{ ansible_facts['product_name'] }}"/>
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
   <meta-data context="node" key="env" value="{{ env }}"/>
+  {% for interfaces in additional_ip_interfaces %}
+  <interface descr="disc-if" ip-addr="{{ interfaces }}" managed="true" status="1" snmp-primary="S"/>
+  {% endfor %}
 </node>

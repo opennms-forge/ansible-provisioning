@@ -1,5 +1,8 @@
 ---
 ansible_host: 172.16.238.12
+additional_ip_interfaces:
+  - 172.16.238.100
+  - 172.16.238.101  
 onms_location: "Default"
 onms_host_services:
   HTTP.MyApp:
