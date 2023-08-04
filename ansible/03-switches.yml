@@ -1,0 +1,8 @@
+---
+# file: horizon-provision.yaml
+
+- hosts: switches
+  gather_facts: false
+  become: false
+  roles:
+    - horizon-provision

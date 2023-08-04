@@ -1,0 +1,9 @@
+---
+monitoring:
+  children:
+    switches:
+      hosts:
+        switch1:
+          ansible_host: 172.16.238.14
+        switch2:
+          ansible_host: 172.16.238.15

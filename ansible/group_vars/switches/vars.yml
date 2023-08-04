@@ -1,0 +1,10 @@
+---
+env: production
+ansible_connection: local
+onms_requisition: stack1-production
+onms_location: "Default"
+onms_group_services:
+   ICMP: {}
+onms_host_services: {}
+onms_policies: {}
+machine_id: "{{ host }}"
