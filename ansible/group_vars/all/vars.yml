@@ -17,7 +17,7 @@ onms_hzn:
   user: admin
   password: admin
 
-onms_requisition: stack1-{{ env }}
+onms_requisition: "{{ env }}-server"
 onms_location: "Default"
 
 onms_group_services:

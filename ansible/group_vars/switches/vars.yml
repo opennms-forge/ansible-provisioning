@@ -1,7 +1,7 @@
 ---
 env: production
 ansible_connection: local
-onms_requisition: stack1-production
+onms_requisition: "{{ env }}-switches"
 onms_location: "Default"
 onms_group_services:
    ICMP: {}
