@@ -40,9 +40,15 @@
   when: requisition_exists
   with_dict: "{{ onms_policies }}"
 
+- name: "Re-define machine_id with inventory_hostname"
+# We need machine_id to be set. In case it is not available (usually nodes that can't be accessed by Ansible to gather facts), we will use the inventory_hostname
+  set_fact:
+    machine_id: "{{ inventory_hostname }}"
+  when: ansible_facts['machine_id'] is not defined
+
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id']"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: GET
@@ -69,7 +75,7 @@
 
 - name: "Verify if monitored services exists"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id']/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: GET
@@ -83,7 +89,7 @@
 
 - name: "Create monitored services"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id']/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: POST
