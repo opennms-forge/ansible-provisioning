@@ -1,0 +1,3 @@
+---
+onms_node_foreignId: "{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}"
+onms_node_nodeLabel:  "{{ ansible_facts['hostname'] if ansible_facts['hostname'] is defined else inventory_hostname }}"
