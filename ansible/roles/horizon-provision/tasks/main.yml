@@ -42,7 +42,7 @@
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_node_foreignId }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: GET
@@ -69,7 +69,7 @@
 
 - name: "Verify if monitored services exists"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_node_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: GET
@@ -83,7 +83,7 @@
 
 - name: "Create monitored services"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_node_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: POST

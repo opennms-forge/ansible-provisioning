@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- {{ ansible_managed }} -->
-<node location="{{ onms_location }}" building="{{ onms_requisition }}" foreign-id="{{ onms_node_foreignId }}" node-label="{{ onms_node_nodeLabel }}">
+<node location="{{ onms_location }}" building="{{ onms_requisition }}" foreign-id="{{ onms_host_foreignId }}" node-label="{{ onms_host_nodeLabel }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
   <category name="{{ env }}"/>
   {% if ansible_facts['product_serial'] is defined %}
