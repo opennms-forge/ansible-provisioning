@@ -92,3 +92,15 @@ services:
       opennms:
         ipv4_address: 172.16.238.13
     privileged: true # Required for /usr/sbin/init
+
+  switch1:
+    image: "internap/fake-switches:latest"
+    networks:
+      opennms:
+        ipv4_address: 172.16.238.14
+
+  switch2:
+    image: "internap/fake-switches:latest"
+    networks:
+      opennms:
+        ipv4_address: 172.16.238.15

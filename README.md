@@ -60,12 +60,17 @@ Wait until you can login to the Web UI which provides also the required REST end
 
 ### Ansible
 
+#### Example: How to add nodes that can use Ansible?
+
+Since we want to use the gathered facts from Ansible to add more information about a node, for example the operating system, amount of RAM etc, it is required that the the nodes that should be added to OpenNMS can handle Ansible connections.
+
 In `./ansible` all ansible playbook, inventories and variables are stored.
-Running a full deployment for Net-SNMP and a web server on Node1 and Node2 run the following command:
+Running a full deployment for Net-SNMP and a web server on Node1,Node2, and the switches run the following command:
 
 Example:
 ```
 cd ansible
+sudo -v
 ansible-playbook -i inventory site.yml
 ```
 
@@ -84,83 +89,14 @@ ssh 172.16.238.13
 ```
 You don't need to login, just adding the fingerprint to your `know_hosts` is enough.
 
-## Hint from Mattermost chat about creating nodes
+#### Example: How to add nodes that can not use Ansible?
 
-Flow for adding a node via APIs would be... 
+While the first example uses the gathered facts of Ansible, here we are showing an approach how the playbook can be used in case the nodes can't handle that easy Ansible connections like common Linux distributions, for example, switches, iDRACs, and any other device that just is reachable somehow in the network.
 
-* Create a Requisition
-* Create a ForeignSource for the Requisition
-* Import import?rescanExisting=false
-* Add SNMP Config for a node
-* Add a Node to Requisition
-* Import [import?rescanExisting=false]
-
-
-## Create a Requisition called fromCLI:
-
+Example:
 ```
-curl -vv -u admin:admin -XPOST -H 'Content-type: application/xml' -d '@emptyReq.xml'  "http://horizon:8980/opennms/rest/requisitions"
-Content of emptyReq.xml
-```
-```
-<model-import date-stamp="2022-09-22T09:31:05.469Z" foreign-source="fromCLI" last-import="2022-09-22T09:31:05.469Z">
-</model-import>
+cd ansible
+ansible-playbook -i inventory/03-switches.yml 03-switches.yml
 ```
 
-## Create a ForeignSource for the Requisition fromCLI:
-
-```
-curl -v -u admin -H 'Content-type: application/xml' -XPOST -d '@fromCLI-foreignSource.xml' "http://horizon:8980/opennms/rest/foreignSources"
-```
-
-Content of fromCLI-foreignSource.xml file
-
-```
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<foreign-source xmlns="http://xmlns.opennms.org/xsd/config/foreign-source" name="fromCLI" date-stamp="2022-12-13T07:50:49.323Z">
-    <scan-interval>1d</scan-interval>
-    <detectors>
-        <detector name="ICMP" class="org.opennms.netmgt.provision.detector.icmp.IcmpDetector"/>
-        <detector name="SNMP" class="org.opennms.netmgt.provision.detector.snmp.SnmpDetector"/>
-    </detectors>
-    <policies>
-        <policy name="Unmanage IP Interfaces" class="org.opennms.netmgt.provision.persist.policies.MatchingIpInterfacePolicy">
-            <parameter key="action" value="UNMANAGE"/>
-            <parameter key="matchBehavior" value="ALL_PARAMETERS"/>
-        </policy>
-    </policies>
-</foreign-source>
-```
-
-## Import Requisition with rescanExisting=false
-
-```
-curl -v -u admin -H 'Content-type: application/xml' -XPUT "http://horizon:8980/opennms/rest/requisitions/fromCLI/import?rescanExisting=false"
-```
-
-## Add SNMP Config for an ip-address
-
-```
-curl -v -u admin -H 'Content-type: application/xml' -XPUT -d '@snmpInfo.xml' "http://horizon:8980/opennms/rest/snmpConfig/10.2.0.9"
-```
-
-## Add a Node to Requisition
-
-```
-curl -vv -u admin:admin -XPOST -H 'Content-type: application/xml' -d '@newNode.xml' "http://horizon:8980/opennms/rest/requisitions/fromCLI/nodes"
-```
-
-## Content of newNode.xml
-
-```
- <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<node foreign-id="1111" node-label="google-dns2">
-<interface ip-addr="8.8.8.8" status="1" snmp-primary="P"/>
-</node>
-```
-
-## Import with rescanExisting=false
-
-```
-curl -v -u admin -H 'Content-type: application/xml' -XPUT "http://horizon:8980/opennms/rest/requisitions/fromCLI/import?rescanExisting=false"
-```
+The inventory here just contains a list of nodes with a name and an IP address. Within the `group_vars/switches` additional information can be added.

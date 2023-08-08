@@ -22,7 +22,7 @@
       Content-Type: "application/xml"
     body: "{{lookup('template','requisitions_xml.j2')}}"
   no_log: true
-  register: requisitions_created
+  register: requisition_created
   when: requisition_exists.failed
 
 - name: "Create policies and detectors for requisitions (foreign-sources)"
@@ -36,13 +36,13 @@
       Content-Type: "application/xml"
     body: "{{lookup('template','foreignSources_xml.j2')}}"
   no_log: true
-  register: requisitions_created
+  register: requisition_created
   when: requisition_exists
   with_dict: "{{ onms_policies }}"
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: GET
@@ -51,7 +51,7 @@
   ignore_errors: true
   no_log: true
   register: node_exists
-  when: requisitions_exists
+  when: requisition_exists
 
 - name: "Create nodes in requisitions"
   ansible.builtin.uri:
@@ -69,7 +69,7 @@
 
 - name: "Verify if monitored services exists"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: GET
@@ -83,7 +83,7 @@
 
 - name: "Create monitored services"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ ansible_facts['machine_id'] }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: POST
@@ -91,7 +91,8 @@
     headers:
       Content-Type: "application/xml"
     body: "{{ lookup('template','services_xml.j2') }}"
-  no_log: false
+  no_log: true
+  ignore_errors: true
   register: service_created
   when: service_exists.failed
   with_dict: "{{ onms_group_services | combine(onms_host_services) }}"

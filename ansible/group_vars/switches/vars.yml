@@ -1,0 +1,9 @@
+---
+env: production
+ansible_connection: local
+onms_requisition: "{{ env }}-switches"
+onms_location: "Default"
+onms_group_services:
+   ICMP: {}
+onms_host_services: {}
+onms_policies: {}
