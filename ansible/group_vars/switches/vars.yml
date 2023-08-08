@@ -1,4 +1,5 @@
 ---
+# Configuration only used for the inventory `switches`
 env: production
 ansible_connection: local
 onms_requisition: "{{ env }}-switches"

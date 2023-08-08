@@ -1,5 +1,10 @@
 ---
-# Ansible hosts can provide the machine_id fact which is used for the foreignId. But nodes that don't allow Ansible connections, for example a switch, can't provide this fact.
-# That is why we set here the inventory_hostname if the machine_id is not available. So it is guaranteed that we get a foreignId.
-onms_host_foreignId: "{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}"
-onms_host_nodeLabel:  "{{ ansible_facts['hostname'] if ansible_facts['hostname'] is defined else inventory_hostname }}"
+# Default settings to let this playbook work without touching the group vars
+onms_hzn:
+  base_rest_url: http://172.16.238.11:8980/opennms/rest
+  node_api: nodes
+  requisitions_api: requisitions
+  foreign_sources_api: foreignSources
+  interfaces_api: interfaces
+  user: admin
+  password: admin
