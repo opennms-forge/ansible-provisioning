@@ -1,9 +1,9 @@
 ---
 - name: "Verify if requisitions exists"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
@@ -13,9 +13,9 @@
 
 - name: "Create requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: POST
     status_code: 202
     headers:
@@ -27,9 +27,9 @@
 
 - name: "Create policies and detectors for requisitions (foreign-sources)"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.foreign_sources_api }}"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_foreign_sources_api }}"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: POST
     status_code: 202
     headers:
@@ -42,9 +42,9 @@
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignId }}"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
@@ -55,23 +55,23 @@
 
 - name: "Create nodes in requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/nodes"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/nodes"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: POST
     status_code: 202
     headers:
       Content-Type: "application/xml"
     body: "{{lookup('template','node_xml.j2')}}"
-  no_log: true
+  no_log: false
   register: node_created
   when: node_exists.failed 
 
 - name: "Verify if monitored services exists"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
@@ -83,9 +83,9 @@
 
 - name: "Create monitored services"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/{{ onms_hzn.node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn.interfaces_api }}/{{ ansible_host }}/services/"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: POST
     status_code: 202
     headers:
@@ -99,9 +99,9 @@
 
 - name: "Import requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/import?rescanExisting=true"
-    user: "{{ onms_hzn.user }}"
-    password: "{{ onms_hzn.password }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/import?rescanExisting=true"
+    user: "{{ onms_hzn_user }}"
+    password: "{{ onms_hzn_password }}"
     method: PUT
     status_code: 202
     headers:

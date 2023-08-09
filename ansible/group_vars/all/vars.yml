@@ -4,9 +4,11 @@ ansible_connection: ssh
 ansible_user: ubuntu
 ansible_ssh_pass: ubuntu
 
+# Global trap destination config for net-snmp role
+snmpd_inform_sink: 172.16.238.11
+
 # OpenNMS Horizon server settings
 # Customize to your needs
-onms_hzn:
-  base_rest_url: http://172.16.238.11:8980/opennms/rest
-  user: admin
-  password: admin
+onms_hzn_base_rest_url: http://172.16.238.11:8980/opennms/rest
+onms_hzn_user: admin
+onms_hzn_password: admin

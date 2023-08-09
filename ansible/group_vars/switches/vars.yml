@@ -1,8 +1,8 @@
 ---
 # Configuration only used for the inventory `switches`
-env: production
+onms_requisition_name: switches
+onms_host_category_enviroment: switches
 ansible_connection: local
-onms_requisition: "{{ env }}-switches"
 onms_location: "Default"
 onms_group_services:
    ICMP: {}

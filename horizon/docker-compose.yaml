@@ -69,6 +69,7 @@ services:
 
   node1:
     image: "ubuntu-with-sshd:latest"
+    hostname: node1
     build:
       context: "test-node"
       target: "ubuntu-with-sshd"
@@ -82,6 +83,7 @@ services:
 
   node2:
     image: "ubuntu-with-sshd:latest"
+    hostname: node2
     build:
       context: "test-node"
       target: "ubuntu-with-sshd"

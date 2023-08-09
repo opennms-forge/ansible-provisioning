@@ -1,7 +1,7 @@
 ---
 - name: Sync requisition
   ansible.builtin.uri:
-    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition }}/import?rescanExisting=true"
+    url: "{{ onms_hzn.base_rest_url }}/{{ onms_hzn.requisitions_api }}/{{ onms_requisition_name }}/import?rescanExisting=true"
     user: "{{ onms_hzn.user }}"
     password: "{{ onms_hzn.password }}"
     method: PUT

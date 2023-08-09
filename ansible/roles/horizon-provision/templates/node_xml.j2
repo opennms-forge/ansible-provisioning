@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- {{ ansible_managed }} -->
-<node location="{{ onms_location }}" building="{{ onms_requisition }}" foreign-id="{{ onms_host_foreignId }}" node-label="{{ onms_host_nodeLabel }}">
+<node location="{{ onms_location }}" building="{{ onms_requisition_name }}" foreign-id="{{ onms_host_foreignId }}" node-label="{{ onms_host_nodeLabel }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
-  <category name="{{ env }}"/>
+  <category name="{{ onms_host_category_enviroment }}"/>
   {% if ansible_facts['product_serial'] is defined %}
   <asset name="serialNumber" value="{{ ansible_facts['product_serial'] }}"/>
   {% endif %}
@@ -12,5 +12,5 @@
   {% if ansible_facts['lsb']['description'] is defined %}
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
   {% endif %}
-  <meta-data context="node" key="env" value="{{ env }}"/>
+  <meta-data context="node" key="env" value="{{ onms_host_category_enviroment }}"/>
 </node>

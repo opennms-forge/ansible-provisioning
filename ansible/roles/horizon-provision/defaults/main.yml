@@ -1,11 +1,19 @@
 ---
+# Default settings to let this playbook work without touching the group vars
+onms_hzn_base_rest_url: http://localhost:8980/opennms/rest
+onms_hzn_requisitions_api: requisitions
+onms_hzn_node_api: nodes
+onms_hzn_foreign_sources_api: foreignSources
+onms_hzn_interfaces_api: interfaces
+onms_hzn_user: admin
+onms_hzn_password: admin
+
 # Provisioning configuration for nodes
 
 # Ansible hosts can provide the machine_id fact which is used for the foreignId. But nodes that don't allow Ansible connections, for example a switch, can't provide this fact.
 # That is why we set here the inventory_hostname if the machine_id is not available. So it is guaranteed that we get a foreignId.
 onms_host_foreignId: "{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}"
 onms_host_nodeLabel:  "{{ ansible_facts['hostname'] if ansible_facts['hostname'] is defined else inventory_hostname }}"
-
 
 # Groups and hosts vars needs to be defined, otherwise the tasks will fail. Add group and hosts service vars at
 onms_group_services: {}
@@ -15,4 +23,4 @@ onms_host_services: {}
 onms_location: "Default"
 
 # Dynamic naming of the requisition name. 'env' variable needs to be defined for a node/group
-onms_requisition: "{{ env }}"
+onms_requisition_name: "ansible-provisioning"
