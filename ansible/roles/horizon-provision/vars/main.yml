@@ -1,5 +1,0 @@
----
-# Ansible hosts can provide the machine_id fact which is used for the foreignId. But nodes that don't allow Ansible connections, for example a switch, can't provide this fact.
-# That is why we set here the inventory_hostname if the machine_id is not available. So it is guaranteed that we get a foreignId.
-onms_host_foreignId: "{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}"
-onms_host_nodeLabel:  "{{ ansible_facts['hostname'] if ansible_facts['hostname'] is defined else inventory_hostname }}"

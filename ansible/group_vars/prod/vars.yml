@@ -1,6 +1,10 @@
 ---
-env: production
 http_port: 80
+
+snmpd_inform_sink: 172.16.238.11
+
+onms_requisition_name: prod
+onms_host_category_enviroment: prod
 
 # OpenNMS Horizon provision policies
 onms_policies:
@@ -23,7 +27,7 @@ onms_policies:
   set_metdadata_alerting_channel:
     class: org.opennms.netmgt.provision.persist.policies.NodeMetadataSettingPolicy
     parameters:
-      foreignSource: "{{ onms_requisition }}"
+      foreignSource: "{{ onms_requisition_name }}"
       metadataKey: alerting_channel
-      metadataValue: "alerting-{{onms_requisition}}"
+      metadataValue: "alerting-{{onms_requisition_name}}"
       matchBehavior: ANY_PARAMETER

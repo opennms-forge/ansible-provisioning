@@ -1,6 +1,10 @@
 ---
-env: staging
 http_port: 81
+
+snmpd_inform_sink: 172.16.238.11
+
+onms_requisition_name: staging
+onms_host_category_enviroment: staging
 
 # OpenNMS Horizon provision policies
 onms_policies: {} # Needs to be defined as empty to not cause the task to fail. 
