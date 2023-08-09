@@ -7,4 +7,7 @@ onms_requisition_name: staging
 onms_host_category_enviroment: staging
 
 # OpenNMS Horizon provision policies
-onms_policies: {} # Needs to be defined as empty to not cause the task to fail. 
+onms_policies: {} # Needs to be defined as empty to not cause the task to fail.
+
+onms_host_categories:
+   - staging
