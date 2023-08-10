@@ -1,6 +1,6 @@
 ---
 - name: "Install Apache2"
-  apt: name=apache2 update_cache=yes state=latest
+  apt: name=apache2 update_cache=yes state=present
 
 - name: "Enabled mod_rewrite"
   apache2_module: name=rewrite state=present
