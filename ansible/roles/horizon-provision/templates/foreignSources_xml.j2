@@ -4,12 +4,14 @@
   <scan-interval>1d</scan-interval>
   <detectors/>
   <policies>
-    {% for (policies, policy) in onms_policies.items() %}
-    <policy name="{{ policies }}" class="{{ policy.class }}">
-        {%- for (key, value) in policy.parameters.items() %}
-        <parameter key="{{ key }}" value="{{ value }}"/>
-        {%- endfor %}
-    </policy>
-    {% endfor %}
+    {% if onms_policies is defined %}
+      {% for (policies, policy) in onms_policies.items() %}
+      <policy name="{{ policies }}" class="{{ policy.class }}">
+          {%- for (key, value) in policy.parameters.items() %}
+          <parameter key="{{ key }}" value="{{ value }}"/>
+          {%- endfor %}
+      </policy>
+      {% endfor %}
+    {% endif %}
   </policies>
 </foreign-source>
