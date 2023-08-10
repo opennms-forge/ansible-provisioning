@@ -60,6 +60,98 @@ Wait until you can login to the Web UI which provides also the required REST end
 
 ### Ansible
 
+#### Parameters
+
+`group_vars/all` Should be set to overwrite the role defaults
+
+Example:
+```
+# OpenNMS Horizon server settings
+onms_hzn_base_rest_url: https://opennms.fra1.ad1.proemion.com/opennms/rest
+onms_hzn_user: USER
+onms_hzn_password: PASSWORD
+```
+
+`onms_requisition_name` defines the name of the requisition that a nodes belongs to
+
+Example:
+```
+onms_requisition_name: switches
+```
+
+`onms_policies` can create [provisioning policies](https://docs.opennms.com/horizon/latest/reference/provisioning/policies.html) to requistions.
+
+Examples:
+```
+# OpenNMS Horizon provision policies
+onms_policies:
+  # There are often special interfaces for that we don't want to collect data/monitor
+  ignore_interfaces:
+    class: org.opennms.netmgt.provision.persist.policies.MatchingSnmpInterfacePolicy
+    parameters:
+      action: DO_NOT_PERSIST
+      ifDescr: "~^(docker|tap|veth).*$"
+      matchBehavior: ALL_PARAMETERS
+  # Based on the SysObjId for Linux net-nnmp agent, the category "linux" will be added
+  set_category_if_linux_os:
+    class: org.opennms.netmgt.provision.persist.policies.NodeCategorySettingPolicy
+    parameters:
+      category: linux
+      sysObjectId: |-
+        ~^\.1\.3\.6\.1\.4\.1\.8072\.3\.2\.10.*
+      matchBehavior: ALL_PARAMETERS
+  # All nodes in the requisition get a node MetaData that can be used to send notifications to a specific destinationPath
+  set_metdadata_alerting_channel:
+    class: org.opennms.netmgt.provision.persist.policies.NodeMetadataSettingPolicy
+    parameters:
+      foreignSource: "{{ onms_requisition_name }}"
+      metadataKey: alerting_channel
+      metadataValue: "alerting-{{onms_requisition_name}}"
+      matchBehavior: ANY_PARAMETER
+```
+
+`onms_location` to set the nodes location (important for Minion usage)
+
+Example:
+```
+onms_location: Default
+```
+
+`onms_host_assets` can be used to fill asset fields. Check the asset [docs](https://docs.opennms.com/horizon/32/reference/configuration/filters/parameters.html)
+
+Example:
+```
+onms_host_assets:
+    description: switch
+```
+
+`onms_host_categories` sets node categories
+
+Example:
+```
+onms_host_categories:
+   - switch
+   - pro
+   - it
+```
+
+`onms_group_services` can be used in group vars to define services for a whole group
+
+Example:
+```
+onms_group_services:
+   ICMP: {}
+   SNMP: {}
+```
+
+`onms_host_services` can be used to assign services to single nodes
+
+Example:
+```
+onms_host_services:
+   HTTPS: {}
+```
+
 #### Example: How to add nodes that can use Ansible?
 
 Since we want to use the gathered facts from Ansible to add more information about a node, for example the operating system, amount of RAM etc, it is required that the the nodes that should be added to OpenNMS can handle Ansible connections.
