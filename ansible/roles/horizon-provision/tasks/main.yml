@@ -20,7 +20,7 @@
     status_code: 202
     headers:
       Content-Type: "application/xml"
-    body: "{{lookup('template','requisitions_xml.j2')}}"
+    body: "{{ lookup('template', 'requisitions_xml.j2') }}"
   no_log: true
   register: requisition_created
   when: requisition_exists.failed
@@ -34,14 +34,14 @@
     status_code: 202
     headers:
       Content-Type: "application/xml"
-    body: "{{lookup('template','foreignSources_xml.j2')}}"
+    body: "{{ lookup('template', 'foreignSources_xml.j2') }}"
   no_log: true
   register: requisition_created
   when: requisition_exists
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignId }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignid }}"
     user: "{{ onms_hzn_user }}"
     password: "{{ onms_hzn_password }}"
     method: GET
@@ -61,14 +61,15 @@
     status_code: 202
     headers:
       Content-Type: "application/xml"
-    body: "{{lookup('template','node_xml.j2')}}"
+    body: "{{ lookup('template', 'node_xml.j2') }}"
   no_log: false
   register: node_created
-  when: node_exists.failed 
+  when: node_exists.failed
 
 - name: "Verify if monitored services exists"
   ansible.builtin.uri:
-    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/\
+         {{ onms_hzn_node_api }}/{{ onms_host_foreignid }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
     user: "{{ onms_hzn_user }}"
     password: "{{ onms_hzn_password }}"
     method: GET
@@ -82,14 +83,15 @@
 
 - name: "Create monitored services"
   ansible.builtin.uri:
-    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignId }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/\
+         {{ onms_hzn_node_api }}/{{ onms_host_foreignid }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/"
     user: "{{ onms_hzn_user }}"
     password: "{{ onms_hzn_password }}"
     method: POST
     status_code: 202
     headers:
       Content-Type: "application/xml"
-    body: "{{ lookup('template','services_xml.j2') }}"
+    body: "{{ lookup('template', 'services_xml.j2') }}"
   no_log: true
   ignore_errors: true
   register: service_created
