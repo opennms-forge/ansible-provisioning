@@ -2,7 +2,13 @@
 <!-- {{ ansible_managed }} -->
 <node location="{{ onms_location }}" building="{{ onms_requisition_name }}" foreign-id="{{ onms_host_foreignId }}" node-label="{{ onms_host_nodeLabel }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
-  <category name="{{ onms_host_category_enviroment }}"/>
+
+  {% if onms_host_categories is defined %}
+    {% for category in onms_host_categories %}
+    <category name="{{ category }}"/>
+    {% endfor %}
+  {% endif %}
+
   {% if ansible_facts['product_serial'] is defined %}
   <asset name="serialNumber" value="{{ ansible_facts['product_serial'] }}"/>
   {% endif %}
@@ -12,6 +18,7 @@
   {% if ansible_facts['lsb']['description'] is defined %}
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
   {% endif %}
+
   <meta-data context="node" key="env" value="{{ onms_host_category_enviroment }}"/>
   {% for k, v in onms_host_assets.items() %}
     {% if k == 'serialNumber' and ansible_facts['product_serial'] is defined %}
@@ -25,4 +32,9 @@
     {% endif %}
     <asset name="{{ k }}" value="{{ v }}"/>
   {% endfor %}
+
+  {% for k, v in onms_host_metadata.items() %}
+  <meta-data context="requistion" key="{{ k }}" value="{{ v }}"/>
+  {% endfor %}
+
 </node>

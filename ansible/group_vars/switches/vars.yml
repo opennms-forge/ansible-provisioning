@@ -1,16 +1,21 @@
 ---
 # Configuration only used for the inventory `switches`
 onms_requisition_name: switches
-onms_host_category_enviroment: switches
 ansible_connection: local
 onms_location: "Default"
 onms_group_services:
    ICMP: {}
 onms_host_services: {}
 onms_policies: {}
+
 onms_host_assets:
    description: switch
    floor: 2
    room: 213
    rack: 1
    rackunitheight: 1
+
+# Node MetaData in key/value pairs
+onms_host_metadata:
+   env: prod
+   app: switches
