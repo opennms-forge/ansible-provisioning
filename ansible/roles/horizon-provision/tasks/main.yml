@@ -95,8 +95,8 @@
   no_log: true
   ignore_errors: true
   register: service_created
-  when: (service_exists.failed) and ( onms_group_services | combine(onms_host_services) is defined)
-  #with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
+  when: service_exists.failed
+  with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
 
 - name: "Import requisitions"
   ansible.builtin.uri:

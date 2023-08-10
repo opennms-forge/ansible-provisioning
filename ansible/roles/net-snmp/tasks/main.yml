@@ -9,6 +9,8 @@
 
 - name: "Ensures {{ snmpd_include_dir }} dir exists"
   file: path={{ snmpd_include_dir }} state=directory
+  mode: 0640
+
   tags: ['net-snmp']
 
 - name: Set snmpd default settings
@@ -17,30 +19,35 @@
 
 - name: Copy the snmpd.conf template file
   template: src=snmpd.conf.j2 dest=/etc/snmp/snmpd.conf
+  mode: 0644
   notify:
     - restart snmpd
   tags: ['net-snmp']
 
 - name: Enable disk monitoring
   template: src=disk.conf.j2 dest={{ snmpd_include_dir }}/disk.conf
+  mode: 0644
   notify:
     - restart snmpd
   tags: ['net-snmp']
 
 - name: Enable process monitoring
   template: src=proc.conf.j2 dest={{ snmpd_include_dir }}/proc.conf
+  mode: 0644
   notify:
     - restart snmpd
   tags: ['net-snmp']
 
 - name: Copy the Trap Inform template file
   template: src=inform.conf.j2 dest={{ snmpd_include_dir }}/inform.conf
+  mode: 0644
   notify:
     - restart snmpd
   tags: ['net-snmp']
 
 - name: Copy the sysinfo inform template file
   template: src=sysinfo.conf.j2 dest={{ snmpd_include_dir }}/sysinfo.conf
+  mode: 0644
   notify:
     - restart snmpd
   tags: ['net-snmp']

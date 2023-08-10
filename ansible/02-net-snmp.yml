@@ -1,3 +1,4 @@
+---
 # file: 02-net-snmp.yml
 
 - hosts: all
