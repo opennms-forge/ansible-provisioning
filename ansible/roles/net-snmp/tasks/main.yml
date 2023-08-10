@@ -7,10 +7,9 @@
   ansible.builtin.user:
     name: snmp
 
-- name: "Ensures {{ snmpd_include_dir }} dir exists"
+- name: Ensures {{ snmpd_include_dir }} dir exists
   file: path={{ snmpd_include_dir }} state=directory
   mode: 0640
-
   tags: ['net-snmp']
 
 - name: Set snmpd default settings
