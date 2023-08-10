@@ -4,7 +4,6 @@ http_port: 80
 snmpd_inform_sink: 172.16.238.11
 
 onms_requisition_name: prod
-onms_host_category_enviroment: prod
 
 # OpenNMS Horizon provision policies
 onms_policies:
@@ -31,6 +30,10 @@ onms_policies:
       metadataKey: alerting_channel
       metadataValue: "alerting-{{onms_requisition_name}}"
       matchBehavior: ANY_PARAMETER
+
+# Node MetaData in key/value pairs
+onms_host_metadata:
+   env: prod
 
 # Categories for nodes can be defined here
 onms_host_categories:
