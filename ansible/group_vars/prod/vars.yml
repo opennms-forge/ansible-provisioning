@@ -34,3 +34,7 @@ onms_policies:
 # Node MetaData in key/value pairs
 onms_host_metadata:
    env: prod
+
+# Categories for nodes can be defined here
+onms_host_categories:
+   - prod

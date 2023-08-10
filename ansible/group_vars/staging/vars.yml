@@ -11,3 +11,8 @@ onms_policies: {} # Needs to be defined as empty to not cause the task to fail.
 # Node MetaData in key/value pairs
 onms_host_metadata:
    env: staging
+
+onms_policies: {} # Needs to be defined as empty to not cause the task to fail.
+
+onms_host_categories:
+   - staging

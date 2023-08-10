@@ -2,6 +2,13 @@
 <!-- {{ ansible_managed }} -->
 <node location="{{ onms_location }}" building="{{ onms_requisition_name }}" foreign-id="{{ onms_host_foreignId }}" node-label="{{ onms_host_nodeLabel }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
+
+  {% if onms_host_categories is defined %}
+    {% for category in onms_host_categories %}
+    <category name="{{ category }}"/>
+    {% endfor %}
+  {% endif %}
+
   {% if ansible_facts['product_serial'] is defined %}
   <asset name="serialNumber" value="{{ ansible_facts['product_serial'] }}"/>
   {% endif %}
