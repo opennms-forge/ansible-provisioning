@@ -19,6 +19,19 @@
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
   {% endif %}
 
+  {% for k, v in onms_host_assets.items() %}
+    {% if k == 'serialNumber' and ansible_facts['product_serial'] is defined %}
+    <asset name="{{ k }}" value="{{ ansible_facts['product_serial'] }}"/>
+    {% endif %}
+    {% if k == 'modelNumber' and ansible_facts['product_name'] is defined %}
+    <asset name="{{ k }}" value="{{ ansible_facts['product_name'] }}"/>
+    {% endif %}
+    {% if k == 'operatingSystem' and ansible_facts['lsb']['description'] is defined %}
+    <asset name="{{ k }}" value="{{ ansible_facts['lsb']['description'] }}"/>
+    {% endif %}
+    <asset name="{{ k }}" value="{{ v }}"/>
+  {% endfor %}
+
   {% for k, v in onms_host_metadata.items() %}
   <meta-data context="requistion" key="{{ k }}" value="{{ v }}"/>
   {% endfor %}
