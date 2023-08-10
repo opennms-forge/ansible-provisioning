@@ -31,3 +31,7 @@ onms_policies:
       metadataKey: alerting_channel
       metadataValue: "alerting-{{onms_requisition_name}}"
       matchBehavior: ANY_PARAMETER
+
+# Categories for nodes can be defined here
+onms_host_categories:
+   - prod
