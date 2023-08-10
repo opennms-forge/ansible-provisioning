@@ -14,6 +14,7 @@ onms_hzn_password: admin
 # That is why we set here the inventory_hostname if the machine_id is not available. So it is guaranteed that we get a foreignId.
 onms_host_foreignId: "{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}"
 onms_host_nodeLabel:  "{{ ansible_facts['hostname'] if ansible_facts['hostname'] is defined else inventory_hostname }}"
+onms_host_assets: {}
 
 # Groups and hosts vars needs to be defined, otherwise the tasks will fail. Add group and hosts service vars at
 onms_group_services: {}
