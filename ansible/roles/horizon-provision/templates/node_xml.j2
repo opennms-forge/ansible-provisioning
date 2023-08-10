@@ -19,7 +19,6 @@
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
   {% endif %}
 
-  <meta-data context="node" key="env" value="{{ onms_host_category_enviroment }}"/>
   {% for k, v in onms_host_assets.items() %}
     {% if k == 'serialNumber' and ansible_facts['product_serial'] is defined %}
     <asset name="{{ k }}" value="{{ ansible_facts['product_serial'] }}"/>
