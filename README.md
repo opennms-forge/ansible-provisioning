@@ -58,6 +58,18 @@ docker-compose up -d
 ```
 Wait until you can login to the Web UI which provides also the required REST endpoints.
 
+### Example: How to add nodes that can not use Ansible?
+
+While the first example uses the gathered facts of Ansible, here we are showing an approach how the playbook can be used in case the nodes can't handle that easy Ansible connections like common Linux distributions, for example, switches, iDRACs, and any other device that just is reachable somehow in the network.
+
+Example:
+```
+cd ansible
+ansible-playbook -i inventory/03-switches.yml 03-switches.yml
+```
+
+The inventory here just contains a list of nodes with a name and an IP address. Within the `group_vars/switches` additional information can be added.
+
 ### Ansible
 
 #### Parameters
@@ -181,14 +193,4 @@ ssh 172.16.238.13
 ```
 You don't need to login, just adding the fingerprint to your `know_hosts` is enough.
 
-#### Example: How to add nodes that can not use Ansible?
 
-While the first example uses the gathered facts of Ansible, here we are showing an approach how the playbook can be used in case the nodes can't handle that easy Ansible connections like common Linux distributions, for example, switches, iDRACs, and any other device that just is reachable somehow in the network.
-
-Example:
-```
-cd ansible
-ansible-playbook -i inventory/03-switches.yml 03-switches.yml
-```
-
-The inventory here just contains a list of nodes with a name and an IP address. Within the `group_vars/switches` additional information can be added.
