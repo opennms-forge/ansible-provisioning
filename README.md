@@ -70,6 +70,36 @@ ansible-playbook -i inventory/03-switches.yml 03-switches.yml
 
 The inventory here just contains a list of nodes with a name and an IP address. Within the `group_vars/switches` additional information can be added.
 
+### Example: How to add nodes that can use Ansible?
+
+Since we want to use the gathered facts from Ansible to add more information about a node, for example the operating system, amount of RAM etc, it is required that the the nodes that should be added to OpenNMS can handle Ansible connections.
+
+In `./ansible` all ansible playbook, inventories and variables are stored.
+Running a full deployment for Net-SNMP and a web server on Node1,Node2, and the switches run the following command:
+
+Example:
+```
+cd ansible
+sudo -v
+ansible-playbook -i inventory site.yml
+```
+
+When you run ansible the first time you probably get the following error message:
+
+```
+fatal: [node0]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host's fingerprint to your known_hosts file to manage this host."}
+fatal: [node1]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host's fingerprint to your known_hosts file to manage this host."}
+```
+
+Just add the SSH fingerprint with the following commands:
+
+```
+ssh 172.16.238.12
+ssh 172.16.238.13
+```
+You don't need to login, just adding the fingerprint to your `know_hosts` is enough.
+
+
 ### Ansible
 
 #### Parameters
@@ -163,34 +193,5 @@ Example:
 onms_host_services:
    HTTPS: {}
 ```
-
-#### Example: How to add nodes that can use Ansible?
-
-Since we want to use the gathered facts from Ansible to add more information about a node, for example the operating system, amount of RAM etc, it is required that the the nodes that should be added to OpenNMS can handle Ansible connections.
-
-In `./ansible` all ansible playbook, inventories and variables are stored.
-Running a full deployment for Net-SNMP and a web server on Node1,Node2, and the switches run the following command:
-
-Example:
-```
-cd ansible
-sudo -v
-ansible-playbook -i inventory site.yml
-```
-
-When you run ansible the first time you probably get the following error message:
-
-```
-fatal: [node0]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host's fingerprint to your known_hosts file to manage this host."}
-fatal: [node1]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host's fingerprint to your known_hosts file to manage this host."}
-```
-
-Just add the SSH fingerprint with the following commands:
-
-```
-ssh 172.16.238.12
-ssh 172.16.238.13
-```
-You don't need to login, just adding the fingerprint to your `know_hosts` is enough.
 
 
