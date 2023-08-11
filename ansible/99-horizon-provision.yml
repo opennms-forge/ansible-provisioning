@@ -7,12 +7,12 @@
   roles:
     - horizon-provision
   tasks:
-  - name: "Import requisitions"
-    ansible.builtin.uri:
-      url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/import?rescanExisting=true"
-      user: "{{ onms_hzn_user }}"
-      password: "{{ onms_hzn_password }}"
-      method: PUT
-      status_code: 202
-      headers:
-        Content-Type: "application/xml"
+    - name: "Import requisitions"
+      ansible.builtin.uri:
+        url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/import?rescanExisting=true"
+        user: "{{ onms_hzn_user }}"
+        password: "{{ onms_hzn_password }}"
+        method: PUT
+        status_code: 202
+        headers:
+          Content-Type: "application/xml"
