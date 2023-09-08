@@ -11,4 +11,3 @@
 
 - name: Provision OpenNMS Horizon
   import_playbook: 99-horizon-provision.yml
-

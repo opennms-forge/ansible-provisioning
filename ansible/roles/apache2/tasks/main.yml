@@ -1,23 +1,32 @@
 ---
 - name: "Install Apache2"
   ansible.builtin.apt:
-    name=apache2 update_cache=yes state=present
+    name: apache2
+    update_cache: true
+    state: present
 
 - name: "Enabled mod_rewrite"
   community.general.apache2_module:
-    name=rewrite state=present
+    name: rewrite
+    state: present
   notify:
     - Restart apache2
 
 - name: "Apache2 listen"
   ansible.builtin.lineinfile:
-    dest=/etc/apache2/ports.conf regexp="^Listen.*" line="Listen {{ http_port }}" state=present
+    dest: /etc/apache2/ports.conf
+    regexp: "^Listen.*"
+    line: "Listen {{ http_port }}"
+    state: present
   notify:
     - Restart apache2
 
 - name: "Apache2 virtualhost"
   ansible.builtin.lineinfile:
-    dest=/etc/apache2/sites-available/000-default.conf regexp="^<VirtualHost \*:.*>" line="<VirtualHost *:{{ http_port }}>" state=present
+    dest: /etc/apache2/sites-available/000-default.conf
+    regexp: ^<VirtualHost \*:.*>
+    line: <VirtualHost *:{{ http_port }}>
+    state: present
   notify:
     - Restart apache2
 
