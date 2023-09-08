@@ -1,7 +1,8 @@
 ---
 # file: horizon-provision.yaml
 
-- hosts: monitoring
+- name: Group of hosts provisioned into OpenNMS Horizon
+  hosts: monitoring
   gather_facts: true
   become: true
   roles:

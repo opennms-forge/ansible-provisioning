@@ -1,7 +1,8 @@
 ---
 # file: horizon-provision.yaml
 
-- hosts: switches
+- name: Group of switches not managed with Ansible
+  hosts: switches
   gather_facts: false
   become: false
   roles:

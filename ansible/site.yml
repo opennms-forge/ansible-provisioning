@@ -1,5 +1,14 @@
 # file: site.yml
 
-- import_playbook: 01-webserver.yml
-- import_playbook: 02-net-snmp.yml
-- import_playbook: 99-horizon-provision.yml
+- name: Deploy web server
+  import_playbook: 01-webserver.yml
+
+- name: Deploy Net-SNMP agents
+  import_playbook: 02-net-snmp.yml
+
+- name: Provision Switches into OpenNMS Horizon
+  import_playbook: 03-switches.yml
+
+- name: Provision OpenNMS Horizon
+  import_playbook: 99-horizon-provision.yml
+
