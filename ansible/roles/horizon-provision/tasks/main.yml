@@ -10,6 +10,8 @@
   ignore_errors: true
   no_log: true
   register: requisition_exists
+  tags:
+    - opennms-provisioning
 
 - name: "Create requisitions"
   ansible.builtin.uri:
@@ -24,6 +26,8 @@
   no_log: true
   register: requisition_created
   when: requisition_exists.failed
+  tags:
+    - opennms-provisioning
 
 - name: "Create policies and detectors for requisitions (foreign-sources)"
   ansible.builtin.uri:
@@ -38,6 +42,8 @@
   no_log: true
   register: requisition_created
   when: requisition_exists
+  tags:
+    - opennms-provisioning
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
@@ -51,6 +57,8 @@
   no_log: true
   register: node_exists
   when: requisition_exists
+  tags:
+    - opennms-provisioning
 
 - name: "Create nodes in requisitions"
   ansible.builtin.uri:
@@ -65,6 +73,8 @@
   no_log: false
   register: node_created
   when: node_exists.failed
+  tags:
+    - opennms-provisioning
 
 - name: "Verify if monitored services exists"
   ansible.builtin.uri:
@@ -80,6 +90,8 @@
   register: service_exists
   when: node_exists
   with_items: "{{ onms_group_services | combine(onms_host_services) }}"
+  tags:
+    - opennms-provisioning
 
 - name: "Create monitored services"
   ansible.builtin.uri:
@@ -97,7 +109,13 @@
   register: service_created
   when: service_exists.failed
   with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
+  tags:
+    - opennms-provisioning
 
+# ansible_play-hosts:
+# List of hosts in the current play run, not limited by the serial. Failed/Unreachable hosts are excluded from this list.
+# With the condition inventory_hostname == ansible_play_hosts[-1] we run the task only for the last host in the current play
+# and ensures we run this task only once per group
 - name: "Import requisitions"
   ansible.builtin.uri:
     url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/import?rescanExisting=true"
@@ -109,3 +127,6 @@
       Content-Type: "application/xml"
   when:
     - skip_import | default("false") == "false"
+  tags:
+    - opennms-provisioning
+    - opennms-requisition-import

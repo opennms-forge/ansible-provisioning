@@ -1,7 +1,8 @@
 ---
 # file: 01-webserver.yml
 
-- hosts: webserver
+- name: Group of web server
+  hosts: webserver
   become: true
   roles:
     - apache2
