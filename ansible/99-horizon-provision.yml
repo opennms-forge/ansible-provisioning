@@ -1,7 +1,33 @@
 ---
 # file: horizon-provision.yaml
 
-- hosts: monitoring
+- name: API Check
+  hosts: localhost
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Query ONMS info API
+      uri:
+        url: "{{ onms_hzn_base_rest_url }}/info"
+        user: "{{ onms_hzn_user }}"
+        password: "{{ onms_hzn_password }}"
+        method: GET
+        force_basic_auth: true
+        validate_certs: no
+        status_code: 200
+      register: info_output
+    - name: Fetch ONMS version
+      set_fact:
+        onms_version: "{{ info_output | json_query(jmesquery) }}"
+      vars:
+        jmesquery: '*."version" | [0]'
+    - name: 'Version check'
+      fail:
+        msg: "The OpenNMS version {{ onms_version }} does not match the version that this Ansible module supports: {{ onms_api_version}}"
+      when:
+        - onms_version != onms_api_version
+- name: Group of hosts provisioned into OpenNMS Horizon
+  hosts: monitoring
   gather_facts: true
   become: true
   roles:

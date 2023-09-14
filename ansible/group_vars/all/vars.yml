@@ -12,3 +12,4 @@ snmpd_inform_sink: 172.16.238.11
 onms_hzn_base_rest_url: http://172.16.238.11:8980/opennms/rest
 onms_hzn_user: admin
 onms_hzn_password: admin
+onms_api_version: '32.0.3'
