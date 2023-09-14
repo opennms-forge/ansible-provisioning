@@ -13,7 +13,7 @@
         password: "{{ onms_hzn_password }}"
         method: GET
         force_basic_auth: true
-        validate_certs: no
+        validate_certs: false
         status_code: 200
       register: info_output
     - name: Fetch ONMS version
