@@ -1,5 +1,5 @@
 ---
-- name: Restart snmpd
+- name: restart snmpd
   ansible.builtin.service:
     name: snmpd
     state: restarted
