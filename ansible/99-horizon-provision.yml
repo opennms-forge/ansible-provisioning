@@ -21,11 +21,11 @@
         onms_version: "{{ info_output | json_query(jmesquery) }}"
       vars:
         jmesquery: '*."version" | [0]'
-    - name: 'Version check'
-      fail:
-        msg: "The OpenNMS version {{ onms_version }} does not match the version that this Ansible module supports: {{ onms_api_version}}"
-      when:
-        - onms_version != onms_api_version
+    - name: Verify ONMS version
+      assert:
+        that:
+          - "'{{ onms_version }}' is version ('{{ onms_api_version }}', '>=', version_type='semver')"
+        fail_msg: "You need at least OpenNMS {{ onms_api_version }} or greater to run these tasks. Your OpenNMS version is {{ onms_version }}."
 - name: Group of hosts provisioned into OpenNMS Horizon
   hosts: monitoring
   gather_facts: true
