@@ -121,7 +121,7 @@ Example:
 onms_requisition_name: switches
 ```
 
-`onms_policies` can create [provisioning policies](https://docs.opennms.com/horizon/latest/reference/provisioning/policies.html) to requistions.
+`onms_policies` can create [provisioning policies](https://docs.opennms.com/horizon/latest/reference/provisioning/policies.html) to requisitions.
 
 Examples:
 ```
@@ -194,4 +194,11 @@ onms_host_services:
    HTTPS: {}
 ```
 
+`skip_import` can be used to control, whether the requisition gets imported or not
 
+Example:
+
+The default is `false` to always import.
+```
+ansible-playbook -i inventory site.yml --extra-vars '{"skip_import":"true"}'
+```
