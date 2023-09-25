@@ -62,7 +62,7 @@
     headers:
       Content-Type: "application/xml"
     body: "{{ lookup('template', 'node_xml.j2') }}"
-  no_log: false
+  no_log: true
   register: node_created
   when: node_exists.failed
 

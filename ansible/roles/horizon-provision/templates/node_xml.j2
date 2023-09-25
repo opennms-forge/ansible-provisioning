@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- {{ ansible_managed }} -->
-<node location="{{ onms_location }}" building="{{ onms_requisition_name }}" foreign-id="{{ onms_host_foreignid }}" node-label="{{ onms_host_nodelabel }}">
+<node location="{{ onms_location }}" foreign-id="{{ onms_host_foreignid }}" node-label="{{ onms_host_nodelabel }}">
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
 
   {% if onms_host_categories is defined %}
@@ -36,7 +36,7 @@
 
   {% if onms_host_metadata is defined %}
     {% for k, v in onms_host_metadata.items() %}
-    <meta-data context="requistion" key="{{ k }}" value="{{ v }}"/>
+    <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
     {% endfor %}
   {% endif %}
 </node>
