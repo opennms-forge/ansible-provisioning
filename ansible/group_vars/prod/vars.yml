@@ -28,7 +28,7 @@ onms_policies:
     parameters:
       foreignSource: "{{ onms_requisition_name }}"
       metadataKey: alerting_channel
-      metadataValue: "alerting-{{onms_requisition_name}}"
+      metadataValue: "alerting-{{ onms_requisition_name }}"
       matchBehavior: ANY_PARAMETER
 
 # Node MetaData in key/value pairs

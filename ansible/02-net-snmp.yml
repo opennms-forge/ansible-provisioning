@@ -1,7 +1,8 @@
 ---
 # file: 02-net-snmp.yml
 
-- hosts: all
+- name: Group of Servers with Net-SNMP agents
+  hosts: all
   become: true
   roles:
     - net-snmp
