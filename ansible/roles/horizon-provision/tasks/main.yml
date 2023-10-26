@@ -126,7 +126,7 @@
     headers:
       Content-Type: "application/xml"
   when:
-    - skip_import | default("false") == "false"
+    - inventory_hostname == ansible_play_hosts[-1] and skip_import | default("false") == "false"
   tags:
     - opennms-provisioning
     - opennms-requisition-import
