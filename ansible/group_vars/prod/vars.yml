@@ -40,4 +40,4 @@ onms_host_categories:
   - prod
 
 onms_group_services:
-   ICMP: {}
+  ICMP: {}
