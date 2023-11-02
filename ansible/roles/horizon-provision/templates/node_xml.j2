@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- {{ ansible_managed }} -->
-<node location="{{ onms_location }}" foreign-id="{{ onms_host_foreignid }}" node-label="{{ onms_host_nodelabel }}">
-  <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P"/>
-
-  {% if onms_host_categories is defined %}
-    {% for category in onms_host_categories %}
-    <category name="{{ category }}"/>
-    {% endfor %}
-  {% endif %}
-
-  {% if ansible_facts['product_serial'] is defined %}
+<node xmlns="http://xmlns.opennms.org/xsd/config/model-import" location="{{ onms_location }}" foreign-id="{{ onms_host_foreignid }}" node-label="{{ onms_host_nodelabel }}">
+  <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P">
+{% if onms_node_services is defined %}
+{% for key,item in onms_node_services.items() %}
+    <monitored-service service-name="{{ key }}">
+{% for k,v in item.items() %}
+      <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
+{% endfor %}
+    </monitored-service>
+{% endfor %}
+{% endif %}
+  </interface>
+{% if onms_host_categories is defined %}
+{% for category in onms_host_categories %}
+  <category name="{{ category }}"/>
+{% endfor %}
+{% endif %}
+{% if ansible_facts['product_serial'] is defined %}
   <asset name="serialNumber" value="{{ ansible_facts['product_serial'] }}"/>
-  {% endif %}
-  {% if ansible_facts['product_name'] is defined %}
+{% endif %}
+{% if ansible_facts['product_name'] is defined %}
   <asset name="modelNumber" value="{{ ansible_facts['product_name'] }}"/>
-  {% endif %}
-  {% if ansible_facts['lsb']['description'] is defined %}
+{% endif %}
+{% if ansible_facts['lsb']['description'] is defined %}
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
-  {% endif %}
-
-  {% if onms_host_assets is defined %}
-    {% for k, v in onms_host_assets.items() %}
-      {% if k == 'serialNumber' and ansible_facts['product_serial'] is defined %}
-      <asset name="{{ k }}" value="{{ ansible_facts['product_serial'] }}"/>
-      {% endif %}
-      {% if k == 'modelNumber' and ansible_facts['product_name'] is defined %}
-      <asset name="{{ k }}" value="{{ ansible_facts['product_name'] }}"/>
-      {% endif %}
-      {% if k == 'operatingSystem' and ansible_facts['lsb']['description'] is defined %}
-      <asset name="{{ k }}" value="{{ ansible_facts['lsb']['description'] }}"/>
-      {% endif %}
-      <asset name="{{ k }}" value="{{ v }}"/>
-    {% endfor %}
-  {% endif %}
-
-  {% if onms_host_metadata is defined %}
-    {% for k, v in onms_host_metadata.items() %}
-    <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
-    {% endfor %}
-  {% endif %}
+{% endif %}
+{% if onms_host_assets is defined %}
+{% for k, v in onms_host_assets.items() %}
+{% if k == 'serialNumber' and ansible_facts['product_serial'] is defined %}
+  <asset name="{{ k }}" value="{{ ansible_facts['product_serial'] }}"/>
+{% endif %}
+{% if k == 'modelNumber' and ansible_facts['product_name'] is defined %}
+  <asset name="{{ k }}" value="{{ ansible_facts['product_name'] }}"/>
+{% endif %}
+{% if k == 'operatingSystem' and ansible_facts['lsb']['description'] is defined %}
+  <asset name="{{ k }}" value="{{ ansible_facts['lsb']['description'] }}"/>
+{% endif %}
+  <asset name="{{ k }}" value="{{ v }}"/>
+{% endfor %}
+{% endif %}
+{% if onms_host_metadata is defined %}
+{% for k, v in onms_host_metadata.items() %}
+  <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
+{% endfor %}
+{% endif %}
 </node>

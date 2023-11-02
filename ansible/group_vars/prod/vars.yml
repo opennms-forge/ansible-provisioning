@@ -38,3 +38,6 @@ onms_host_metadata:
 # Categories for nodes can be defined here
 onms_host_categories:
   - prod
+
+onms_group_services:
+   ICMP: {}

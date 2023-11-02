@@ -11,3 +11,6 @@ onms_host_metadata:
 
 onms_host_categories:
    - staging
+
+onms_group_services:
+   ICMP: {}

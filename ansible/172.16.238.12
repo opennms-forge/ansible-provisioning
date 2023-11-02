@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node xmlns="http://xmlns.opennms.org/xsd/config/model-import" location="Default" foreign-id="6332f01f-f80f-4493-8389-dcdc6a7bb-n1" node-label="node1">
+  <interface descr="disc-if" ip-addr="172.16.238.12" managed="true" status="1" snmp-primary="P">
+    <monitored-service service-name="ICMP">
+    </monitored-service>
+    <monitored-service service-name="HTTP.MyApp">
+      <meta-data context="requisition" key="port" value="80"/>
+      <meta-data context="requisition" key="path" value="/"/>
+    </monitored-service>
+  </interface>
+  <category name="prod"/>
+  <asset name="serialNumber" value="PF30SFLG"/>
+  <asset name="modelNumber" value="20XW005JGE"/>
+  <asset name="operatingSystem" value="Ubuntu 22.04.3 LTS"/>
+  <meta-data context="requisition" key="env" value="prod"/>
+</node>

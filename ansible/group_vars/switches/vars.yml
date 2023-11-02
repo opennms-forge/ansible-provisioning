@@ -5,6 +5,7 @@ ansible_connection: local
 onms_location: "Default"
 onms_group_services:
    ICMP: {}
+onms_host_services: {}
 
 onms_host_assets:
    description: switch
