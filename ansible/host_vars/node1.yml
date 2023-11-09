@@ -5,3 +5,5 @@ onms_host_services:
   HTTP.MyApp:
     port: "{{ http_port }}"
     path: "/"
+
+onms_node_parent_foreign_id: "1000"

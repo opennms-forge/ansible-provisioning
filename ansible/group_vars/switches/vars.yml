@@ -18,3 +18,5 @@ onms_host_assets:
 onms_host_metadata:
    env: prod
    app: switches
+
+onms_node_parent_foreign_id: "200"

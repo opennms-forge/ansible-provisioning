@@ -71,7 +71,6 @@
       Content-Type: "application/xml"
     body: "{{ lookup('template', 'node_xml.j2') }}"
   no_log: false
-  # with_dict: "{{ onms_node_services }}"
   tags:
     - opennms-provisioning
   when: node_exists.failed
