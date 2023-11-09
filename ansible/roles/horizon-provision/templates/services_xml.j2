@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- Ansible managed -->
-<monitored-service xmlns="http://xmlns.opennms.org/xsd/config/model-import" service-name="{{ item.key }}" >
-  {% for k, v in item.value.items() %}
-  <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
-  {% endfor %}
-</monitored-service>

@@ -47,7 +47,7 @@
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
-    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/{{ onms_hzn_node_api }}/{{ onms_host_foreignid }}"
+    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/nodes/{{ onms_host_foreignid }}"
     user: "{{ onms_hzn_user }}"
     password: "{{ onms_hzn_password }}"
     method: GET
@@ -70,52 +70,16 @@
     headers:
       Content-Type: "application/xml"
     body: "{{ lookup('template', 'node_xml.j2') }}"
-  no_log: true
-  register: node_created
+  no_log: false
+  # with_dict: "{{ onms_node_services }}"
+  tags:
+    - opennms-provisioning
   when: node_exists.failed
-  tags:
-    - opennms-provisioning
 
-- name: "Verify if monitored services exists"
-  ansible.builtin.uri:
-    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/\
-         {{ onms_hzn_node_api }}/{{ onms_host_foreignid }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/{{ item }}"
-    user: "{{ onms_hzn_user }}"
-    password: "{{ onms_hzn_password }}"
-    method: GET
-    force_basic_auth: true
-    status_code: 200
-  ignore_errors: true
-  no_log: true
-  register: service_exists
-  when: node_exists
-  with_items: "{{ onms_group_services | combine(onms_host_services) }}"
-  tags:
-    - opennms-provisioning
-
-- name: "Create monitored services"
-  ansible.builtin.uri:
-    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/\
-         {{ onms_hzn_node_api }}/{{ onms_host_foreignid }}/{{ onms_hzn_interfaces_api }}/{{ ansible_host }}/services/"
-    user: "{{ onms_hzn_user }}"
-    password: "{{ onms_hzn_password }}"
-    method: POST
-    status_code: 202
-    headers:
-      Content-Type: "application/xml"
-    body: "{{ lookup('template', 'services_xml.j2') }}"
-  no_log: true
-  ignore_errors: true
-  register: service_created
-  when: service_exists.failed
-  with_dict: "{{ onms_group_services | combine(onms_host_services) }}"
-  tags:
-    - opennms-provisioning
-
-# ansible_play-hosts:
-# List of hosts in the current play run, not limited by the serial. Failed/Unreachable hosts are excluded from this list.
-# With the condition inventory_hostname == ansible_play_hosts[-1] we run the task only for the last host in the current play
-# and ensures we run this task only once per group
+# # ansible_play-hosts:
+# # List of hosts in the current play run, not limited by the serial. Failed/Unreachable hosts are excluded from this list.
+# # With the condition inventory_hostname == ansible_play_hosts[-1] we run the task only for the last host in the current play
+# # and ensures we run this task only once per group
 - name: "Import requisitions"
   ansible.builtin.uri:
     url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/import?rescanExisting=true"
