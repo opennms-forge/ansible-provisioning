@@ -210,3 +210,9 @@ The default is `false` to always import.
 ansible-playbook -i inventory site.yml --extra-vars '{"skip_import":"true"}'
 ```
 
+#### Development
+
+##### Debug tasks
+
+In `ansible/roles/horizon-provision/tasks/debug.yml` we started to add some handy tasks that are sometimes really helpful.
+A short description of each task is provided in the file.
