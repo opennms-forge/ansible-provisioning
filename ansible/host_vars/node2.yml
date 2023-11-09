@@ -5,3 +5,6 @@ onms_host_services:
   HTTP.MyApp:
     port: "{{ http_port }}"
     path: "/"
+
+onms_host_metadata:
+  department: "Sales"

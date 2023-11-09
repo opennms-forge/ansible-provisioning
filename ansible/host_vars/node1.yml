@@ -7,3 +7,6 @@ onms_host_services:
     path: "/"
 
 onms_node_parent_foreign_id: "1000"
+
+onms_host_metadata:
+  department: "Finance"

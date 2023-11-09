@@ -32,7 +32,7 @@ onms_policies:
       matchBehavior: ANY_PARAMETER
 
 # Node MetaData in key/value pairs
-onms_host_metadata:
+onms_group_metadata:
   env: prod
 
 # Categories for nodes can be defined here

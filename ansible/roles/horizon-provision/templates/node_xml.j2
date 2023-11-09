@@ -39,8 +39,8 @@
   <asset name="{{ k }}" value="{{ v }}"/>
 {% endfor %}
 {% endif %}
-{% if onms_host_metadata is defined %}
-{% for k, v in onms_host_metadata.items() %}
+{% if onms_node_metadata is defined %}
+{% for k, v in onms_node_metadata.items() %}
   <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
 {% endfor %}
 {% endif %}
