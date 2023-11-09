@@ -60,17 +60,6 @@
   tags:
     - opennms-provisioning
 
-# For debugging purposes
-- name: Template a file
-  ansible.builtin.template:
-    src: node_xml.j2
-    dest: "{{ ansible_host }}"
-    owner: mf1045
-    group: mf1045
-    mode: '0644'
-  delegate_to: localhost
-  # with_dict: "{{ onms_node_services }}"
-
 - name: "Create nodes in requisitions"
   ansible.builtin.uri:
     url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/nodes"
