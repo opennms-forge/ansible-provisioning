@@ -11,6 +11,19 @@
 {% endfor %}
 {% endif %}
   </interface>
+{% if additional_nic is defined %}
+{% for key,item in additional_nic.items() %}
+  <interface ip-addr="{{ key }}" snmp-primary="N">
+{% for key,item in item.items() %}
+    <monitored-service service-name="{{ key }}">
+{% for k,v in item.items() %}
+      <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
+{% endfor %}
+    </monitored-service>
+{% endfor %}
+  </interface>
+{% endfor %}
+{% endif %}
 {% if onms_host_categories is defined %}
 {% for category in onms_host_categories %}
   <category name="{{ category }}"/>

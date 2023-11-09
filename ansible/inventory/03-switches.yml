@@ -3,5 +3,16 @@ switches:
   hosts:
     switch1:
       ansible_host: 172.16.238.14
+      additional_nic:
+        "172.16.238.20":
+          ICMP:
+            retry: 5
+            timeout: 10
+          HTTP:
+            port: 80
+        "172.16.238.21":
+          SNMP:
+            retry: 5
+            timeout: 10
     switch2:
       ansible_host: 172.16.238.15
