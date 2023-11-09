@@ -177,8 +177,8 @@ onms_host_categories:
    - it
 ```
 
-`onms_group_services` can be used in group vars to define services for a whole group
-
+`onms_group_services` can be used in group vars to define services for a whole group.
+Needs to be defined at least as `empty` `like onms_group_metadata: {}`
 Example:
 ```
 onms_group_services:
@@ -186,8 +186,9 @@ onms_group_services:
    SNMP: {}
 ```
 
-`onms_host_services` can be used to assign services to single nodes
 
+`onms_host_services` can be used to assign services to single nodes
+Needs to be defined at least as `empty` `like onms_host_metadata: {}`
 Example:
 ```
 onms_host_services:

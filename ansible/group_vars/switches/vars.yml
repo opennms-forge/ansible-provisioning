@@ -15,7 +15,7 @@ onms_host_assets:
    rackunitheight: 1
 
 # Node MetaData in key/value pairs
-onms_host_metadata:
+onms_group_metadata:
    env: prod
    app: switches
 
