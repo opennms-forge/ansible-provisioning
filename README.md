@@ -198,7 +198,7 @@ onms_host_services:
 
 Example:
 ```
-onms_group_node_parent_foreign_id: "1000"
+onms_node_parent_foreign_id: "1000"
 ```
 
 `skip_import` can be used to control, whether the requisition gets imported or not
