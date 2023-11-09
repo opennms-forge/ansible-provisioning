@@ -194,6 +194,13 @@ onms_host_services:
    HTTPS: {}
 ```
 
+`onms_node_parent_foreign_id` can be used in group -or- host vars to define the parent_foreign_id which is required to use the path outage feature
+
+Example:
+```
+onms_group_node_parent_foreign_id: "1000"
+```
+
 `skip_import` can be used to control, whether the requisition gets imported or not
 
 Example:
@@ -202,3 +209,4 @@ The default is `false` to always import.
 ```
 ansible-playbook -i inventory site.yml --extra-vars '{"skip_import":"true"}'
 ```
+
