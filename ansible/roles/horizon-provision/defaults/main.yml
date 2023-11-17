@@ -16,12 +16,15 @@ onms_hzn_password: admin
 onms_host_foreignid: "{{ ansible_facts['machine_id'] if ansible_facts['machine_id'] is defined else inventory_hostname }}"
 onms_host_nodelabel: "{{ ansible_facts['hostname'] if ansible_facts['hostname'] is defined else inventory_hostname }}"
 
-# Dictionary merge of `onms_group_metadata` which should be used in `group_vars` as default
-# for all nodes in an inventory and `onms_host_metadata` on each node level
-# group and host need to be defined as empty here because the the combine will not work when it is not defined somewhere
+# Creating dictionaries / lists here to make sure the combine works, even if host or group is not defined somewhere else.
+# The group dictionaries should be used in `group_vars`,  for specific need on a node we can use the host dictionaries.
 onms_group_metadata: {}
 onms_host_metadata: {}
 onms_node_metadata: "{{ onms_group_metadata | combine(onms_host_metadata) }}"
+
+onms_group_service: {}
+onms_host_service: {}
+onms_node_services: "{{ onms_group_services | combine(onms_host_services) }}"
 
 # Sets the node default location
 onms_location: "Default"

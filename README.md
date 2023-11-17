@@ -159,7 +159,7 @@ Example:
 onms_location: Default
 ```
 
-`onms_host_assets` can be used to fill asset fields. Check the asset [docs](https://docs.opennms.com/horizon/32/reference/configuration/filters/parameters.html)
+`onms_host_assets` / `onms_group_assets` can be used to fill asset fields on group or host var level. Check the asset [docs](https://docs.opennms.com/horizon/32/reference/configuration/filters/parameters.html)
 
 Example:
 ```
@@ -202,6 +202,23 @@ Example:
 onms_node_parent_foreign_id: "1000"
 ```
 
+`onms_node_additional_nic` can be used to add secondary interfaces. You can also add services and meta-data
+
+Example:
+```
+onms_node_additional_nic:
+  "172.16.238.20":
+    ICMP:
+      retry: 5
+      timeout: 10
+    HTTP:
+      port: 90
+  "172.16.238.21":
+    SNMP:
+      retry: 5
+      timeout: 10
+```
+
 `skip_import` can be used to control, whether the requisition gets imported or not
 
 Example:
@@ -215,5 +232,5 @@ ansible-playbook -i inventory site.yml --extra-vars '{"skip_import":"true"}'
 
 ##### Debug tasks
 
-In `ansible/roles/horizon-provision/tasks/debug.yml` we started to add some handy tasks that are sometimes really helpful.
-A short description of each task is provided in the file.
+If changes on the node template are required, it makes sense to not call the OpenNMS API.
+By running the playbook with `--tags debug` only the xml node file definition files will be created locally.

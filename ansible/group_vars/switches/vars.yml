@@ -5,18 +5,18 @@ ansible_connection: local
 onms_location: "Default"
 onms_group_services:
    ICMP: {}
-onms_host_services: {}
 
-onms_host_assets:
+onms_group_assets:
    description: switch
    floor: 2
    room: 213
    rack: 1
    rackunitheight: 1
 
-# Node MetaData in key/value pairs
 onms_group_metadata:
-   env: prod
    app: switches
 
 onms_node_parent_foreign_id: "200"
+
+onms_host_categories:
+   - switches
