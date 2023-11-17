@@ -2,24 +2,32 @@
 <node xmlns="http://xmlns.opennms.org/xsd/config/model-import" location="{{ onms_location }}" foreign-id="{{ onms_host_foreignid }}" node-label="{{ onms_host_nodelabel }}"{% if onms_node_parent_foreign_id is defined and onms_node_parent_foreign_id|string|length %} parent-foreign-id="{{ onms_node_parent_foreign_id}}"{% endif %}>
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P">
 {% if onms_node_services is defined %}
-{% for key,item in onms_node_services.items() %}
-    <monitored-service service-name="{{ key }}">
-{% for k,v in item.items() %}
-      <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
+{% for service_name,service in onms_node_services.items() %}
+{% if service is defined and service|length %}
+    <monitored-service service-name="{{ service_name }}">
+{% for metadata_key,metadata_value in service.items() %}
+      <meta-data context="requisition" key="{{ metadata_key }}" value="{{ metadata_value }}"/>
 {% endfor %}
     </monitored-service>
+{% else %}
+    <monitored-service service-name="{{ service_name }}"/>
+{% endif %}
 {% endfor %}
 {% endif %}
   </interface>
-{% if additional_nic is defined %}
-{% for key,item in additional_nic.items() %}
-  <interface ip-addr="{{ key }}" snmp-primary="N">
-{% for key,item in item.items() %}
-    <monitored-service service-name="{{ key }}">
-{% for k,v in item.items() %}
-      <meta-data context="requisition" key="{{ k }}" value="{{ v }}"/>
+{% if onms_node_additional_nic is defined %}
+{% for interface_ip,interface in onms_node_additional_nic.items() %}
+  <interface ip-addr="{{ interface_ip }}" snmp-primary="N">
+{% for service_name,service in interface.items() %}
+{% if service is defined and service|length %}
+    <monitored-service service-name="{{ service_name }}">
+{% for metadata_key,metadata_value in service.items() %}
+      <meta-data context="requisition" key="{{ metadata_key }}" value="{{ metadata_value }}"/>
 {% endfor %}
     </monitored-service>
+{% else %}
+    <monitored-service service-name="{{ service_name }}"/>
+{% endif %}
 {% endfor %}
   </interface>
 {% endfor %}
@@ -38,8 +46,8 @@
 {% if ansible_facts['lsb']['description'] is defined %}
   <asset name="operatingSystem" value="{{ ansible_facts['lsb']['description'] }}"/>
 {% endif %}
-{% if onms_host_assets is defined %}
-{% for k, v in onms_host_assets.items() %}
+{% if onms_node_assets is defined %}
+{% for k, v in onms_node_assets.items() %}
 {% if k == 'serialNumber' and ansible_facts['product_serial'] is defined %}
   <asset name="{{ k }}" value="{{ ansible_facts['product_serial'] }}"/>
 {% endif %}
