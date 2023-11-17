@@ -83,7 +83,7 @@
     dest: "node_definition_{{ ansible_host }}.xml"
     mode: '0644'
   delegate_to: localhost
-  tags: [ debug, never ]
+  tags: [ debug,never ]
 
 # # ansible_play-hosts:
 # # List of hosts in the current play run, not limited by the serial. Failed/Unreachable hosts are excluded from this list.
