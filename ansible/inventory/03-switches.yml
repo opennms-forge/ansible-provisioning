@@ -20,6 +20,8 @@ switches:
             timeout: 10
       onms_host_metadata:
         env: prod
+      onms_host_categories:
+        - prod
     switch2:
       ansible_host: 172.16.238.15
       onms_host_services:
@@ -28,3 +30,5 @@ switches:
           port: 8100
       onms_host_metadata:
         env: staging
+      onms_host_categories:
+        - staging

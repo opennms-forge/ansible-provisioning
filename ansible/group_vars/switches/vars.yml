@@ -18,5 +18,5 @@ onms_group_metadata:
 
 onms_node_parent_foreign_id: "200"
 
-onms_host_categories:
+onms_group_categories:
    - switches
