@@ -101,4 +101,4 @@ ansible-playbook -i inventory/03-switches.yml 03-switches.yml
 
 ## :wrench: Configurations
 
-Information about the variables that are supported in this playbook can be found [here](https://github.com/opennms-forge/ansible-provisioning/blob/main/ansible/site.yml).
+Information about the variables that are supported in this playbook can be found [here](https://github.com/opennms-forge/ansible-provisioning/blob/main/ansible/README.md).
