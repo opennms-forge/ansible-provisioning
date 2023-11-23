@@ -7,7 +7,7 @@ Should be set to overwrite the role default vars.
 **Example:**
 ```
 # OpenNMS Horizon server settings
-onms_hzn_base_rest_url: https://opennms.fra1.ad1.proemion.com/opennms/rest
+onms_hzn_base_rest_url: https://opennms.domain/opennms/rest
 onms_hzn_user: USER
 onms_hzn_password: PASSWORD
 ```
