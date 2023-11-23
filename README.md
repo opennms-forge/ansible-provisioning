@@ -37,13 +37,15 @@ You can find us in following places:
 
 ## 🎢 Ansible Playground
 
-The docker based playground has 3 nodes:
+The docker based playground has 5 nodes:
 
 * OpenNMS Horizon: 172.16.238.11
-* Node1: 172.16.238.12
-* Node2: 172.16.238.13
+* node1: 172.16.238.12
+* node2: 172.16.238.13
+* switch1: 172.16.238.14
+* switch2: 172.16.238.15
 
-Node1 and Node2 are used to simulate two Linux server to deploy applications and use it to do some service monitoring.
+Node1 and Node2 are used to simulate two Linux server to deploy applications with Ansible and use it to do some service monitoring. While this approach runs playbooks to install node1 and node2 accordingly (here we set up Apache web server) and provision them into OpenNMS more or less in one step, also gathering facts from the VMs (Example 1), the Switch1 and Switch2 examples are used to demonstrate static inventory lists for devices that can't be ssh-ed from Ansible. The information are defined in the inventories/vars (Example 2).
 
 ## 🕹️ Usage
 
@@ -58,19 +60,7 @@ docker-compose up -d
 ```
 Wait until you can login to the Web UI which provides also the required REST endpoints.
 
-### Example: How to add nodes that can not use Ansible?
-
-While the first example uses the gathered facts of Ansible, here we are showing an approach how the playbook can be used in case the nodes can't handle that easy Ansible connections like common Linux distributions, for example, switches, iDRACs, and any other device that just is reachable somehow in the network.
-
-Example:
-```
-cd ansible
-ansible-playbook -i inventory/03-switches.yml 03-switches.yml
-```
-
-The inventory here just contains a list of nodes with a name and an IP address. Within the `group_vars/switches` additional information can be added.
-
-### Example: How to add nodes that can use Ansible?
+### Example 1: How to add nodes that can use Ansible?
 
 Since we want to use the gathered facts from Ansible to add more information about a node, for example the operating system, amount of RAM etc, it is required that the the nodes that should be added to OpenNMS can handle Ansible connections.
 
@@ -99,144 +89,16 @@ ssh 172.16.238.13
 ```
 You don't need to login, just adding the fingerprint to your `know_hosts` is enough.
 
+### Example 2: How to add nodes that can not use Ansible?
 
-### Ansible
-
-#### Parameters
-
-`group_vars/all` Should be set to overwrite the role defaults
+While the first example uses the gathered facts of Ansible, here we are showing an approach how the playbook can be used in case the nodes can't handle that easy Ansible connections like common Linux distributions, for example, switches, iDRACs, and any other device that just is reachable somehow in the network.
 
 Example:
 ```
-# OpenNMS Horizon server settings
-onms_hzn_base_rest_url: https://opennms.fra1.ad1.proemion.com/opennms/rest
-onms_hzn_user: USER
-onms_hzn_password: PASSWORD
+cd ansible
+ansible-playbook -i inventory/03-switches.yml 03-switches.yml
 ```
 
-`onms_requisition_name` defines the name of the requisition that a nodes belongs to
+## :wrench: Configurations
 
-Example:
-```
-onms_requisition_name: switches
-```
-
-`onms_policies` can create [provisioning policies](https://docs.opennms.com/horizon/latest/reference/provisioning/policies.html) to requisitions.
-
-Examples:
-```
-# OpenNMS Horizon provision policies
-onms_policies:
-  # There are often special interfaces for that we don't want to collect data/monitor
-  ignore_interfaces:
-    class: org.opennms.netmgt.provision.persist.policies.MatchingSnmpInterfacePolicy
-    parameters:
-      action: DO_NOT_PERSIST
-      ifDescr: "~^(docker|tap|veth).*$"
-      matchBehavior: ALL_PARAMETERS
-  # Based on the SysObjId for Linux net-nnmp agent, the category "linux" will be added
-  set_category_if_linux_os:
-    class: org.opennms.netmgt.provision.persist.policies.NodeCategorySettingPolicy
-    parameters:
-      category: linux
-      sysObjectId: |-
-        ~^\.1\.3\.6\.1\.4\.1\.8072\.3\.2\.10.*
-      matchBehavior: ALL_PARAMETERS
-  # All nodes in the requisition get a node MetaData that can be used to send notifications to a specific destinationPath
-  set_metdadata_alerting_channel:
-    class: org.opennms.netmgt.provision.persist.policies.NodeMetadataSettingPolicy
-    parameters:
-      foreignSource: "{{ onms_requisition_name }}"
-      metadataKey: alerting_channel
-      metadataValue: "alerting-{{onms_requisition_name}}"
-      matchBehavior: ANY_PARAMETER
-```
-
-`onms_location` to set the nodes location (important for Minion usage)
-
-Example:
-```
-onms_location: Default
-```
-
-`onms_host_assets` / `onms_group_assets` can be used to fill asset fields on group or host var level. Check the asset [docs](https://docs.opennms.com/horizon/32/reference/configuration/filters/parameters.html)
-
-Example:
-```
-onms_host_assets:
-    description: switch
-```
-
-`onms_host_categories` puts nodes into OpenNMS categories. Should be used on host var level. Will be merged with `onms_group_categories`
-
-Example:
-```
-onms_host_categories:
-   - switch
-```
-
-`onms_group_categories` puts nodes into OpenNMS categories. Should be used on group var level. Will be merged with `onms_host_categories`
-
-Example:
-```
-onms_group_categories:
-   - prod
-```
-
-`onms_group_services` can be used in group vars to define services for a whole group.
-Needs to be defined at least as `empty` `like onms_group_metadata: {}`
-Example:
-```
-onms_group_services:
-   ICMP: {}
-   SNMP: {}
-```
-
-
-`onms_host_services` can be used to assign services to single nodes
-Needs to be defined at least as `empty` `like onms_host_metadata: {}`
-Example:
-```
-onms_host_services:
-   HTTPS: {}
-```
-
-`onms_node_parent_foreign_id` can be used in group -or- host vars to define the parent_foreign_id which is required to use the path outage feature
-
-Example:
-```
-onms_node_parent_foreign_id: "1000"
-```
-
-`onms_node_additional_nic` can be used to add secondary interfaces. You can also add services and meta-data
-
-Example:
-```
-onms_node_additional_nic:
-  "172.16.238.20":
-    ICMP:
-      retry: 5
-      timeout: 10
-    HTTP:
-      port: 90
-  "172.16.238.21":
-    SNMP:
-      retry: 5
-      timeout: 10
-```
-
-`skip_import` can be used to control, whether the requisition gets imported or not
-
-Example:
-
-The default is `false` to always import.
-```
-ansible-playbook -i inventory site.yml --extra-vars '{"skip_import":"true"}'
-```
-
-#### Development
-
-##### Debug tasks
-
-If changes on the node template are required, it makes sense to not call the OpenNMS API.
-By running the playbook with `--tags debug` only the xml node file definition files will be created locally.
+Information about the variables that are supported in this playbook can be found [here](https://github.com/opennms-forge/ansible-provisioning/blob/main/ansible/site.yml).
