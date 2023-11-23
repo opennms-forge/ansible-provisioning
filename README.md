@@ -167,14 +167,20 @@ onms_host_assets:
     description: switch
 ```
 
-`onms_host_categories` sets node categories
+`onms_host_categories` puts nodes into OpenNMS categories. Should be used on host var level. Will be merged with `onms_group_categories`
 
 Example:
 ```
 onms_host_categories:
    - switch
-   - pro
-   - it
+```
+
+`onms_group_categories` puts nodes into OpenNMS categories. Should be used on group var level. Will be merged with `onms_host_categories`
+
+Example:
+```
+onms_group_categories:
+   - prod
 ```
 
 `onms_group_services` can be used in group vars to define services for a whole group.
