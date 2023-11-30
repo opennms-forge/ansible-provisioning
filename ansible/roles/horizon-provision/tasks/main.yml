@@ -24,6 +24,7 @@
   tags:
     - opennms-provisioning
   delegate_to: localhost
+  run_once: True
 
 - name: "Create requisitions"
   ansible.builtin.uri:
@@ -54,7 +55,7 @@
     body: "{{ lookup('template', 'foreignSources_xml.j2') }}"
   no_log: true
   register: requisition_created
-  when: requisition_exists
+  when: requisition_created.changed
   tags:
     - opennms-provisioning
   delegate_to: localhost
