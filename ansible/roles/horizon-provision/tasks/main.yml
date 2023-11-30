@@ -102,7 +102,6 @@
   tags:
     - never
     - debug
-  delegate_to: localhost
 
 # # ansible_play-hosts:
 # # List of hosts in the current play run, not limited by the serial. Failed/Unreachable hosts are excluded from this list.
