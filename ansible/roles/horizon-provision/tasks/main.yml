@@ -54,7 +54,7 @@
       Content-Type: "application/xml"
     body: "{{ lookup('template', 'foreignSources_xml.j2') }}"
   no_log: true
-  register: foreign-source_created
+  register: foreignsource_created
   when: requisition_created.changed
   tags:
     - opennms-provisioning
