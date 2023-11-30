@@ -164,6 +164,16 @@ onms_node_additional_nic:
 
 ## General
 
+### Remove nodes from OpenNMS
+
+The removal API calls are `never` called by default. They can be run by using the tag `opennms-node-removal`.
+
+**Example:**
+
+```
+ansible-playbook -i inventory/03-switches.yml 03-switches.yml -l switch1 --tags opennms-node-removal
+```
+
 ### skip_import
 
 skip_import` can be used to control, whether the requisition gets imported or not
