@@ -1,4 +1,15 @@
 ---
+- name: "Removes existing nodes if tag opennms-node-removal was set"
+  ansible.builtin.include_tasks:
+    file: removal.yml
+    apply:
+      tags:
+        - opennms-node-removal
+        - never
+  tags:
+    - opennms-node-removal
+    - never
+
 - name: "Verify if requisitions exists"
   ansible.builtin.uri:
     url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}"
@@ -105,3 +116,4 @@
   tags:
     - opennms-provisioning
     - opennms-requisition-import
+    - opennms-node-removal
