@@ -23,6 +23,7 @@
   register: requisition_exists
   tags:
     - opennms-provisioning
+  delegate_to: localhost
 
 - name: "Create requisitions"
   ansible.builtin.uri:
@@ -39,6 +40,7 @@
   when: requisition_exists.failed
   tags:
     - opennms-provisioning
+  delegate_to: localhost
 
 - name: "Create policies and detectors for requisitions (foreign-sources)"
   ansible.builtin.uri:
@@ -55,6 +57,7 @@
   when: requisition_exists
   tags:
     - opennms-provisioning
+  delegate_to: localhost
 
 - name: "Verify if nodes exist in requisitions"
   ansible.builtin.uri:
@@ -70,6 +73,7 @@
   when: requisition_exists
   tags:
     - opennms-provisioning
+  delegate_to: localhost
 
 - name: "Create nodes in requisitions"
   ansible.builtin.uri:
@@ -85,6 +89,7 @@
   tags:
     - opennms-provisioning
   when: node_exists.failed
+  delegate_to: localhost
 
 # Creates a file in the root folder and writes the node definition into it.
 # This is helpful if you want to change the node_xml.j2 and see the exact output.
@@ -97,6 +102,7 @@
   tags:
     - never
     - debug
+  delegate_to: localhost
 
 # # ansible_play-hosts:
 # # List of hosts in the current play run, not limited by the serial. Failed/Unreachable hosts are excluded from this list.
@@ -117,3 +123,4 @@
     - opennms-provisioning
     - opennms-requisition-import
     - opennms-node-removal
+  delegate_to: localhost

@@ -8,6 +8,7 @@
     status_code: 202
   no_log: false
   register: node_deleted
+  delegate_to: localhost
 
 - name: "Import requisitions"
   ansible.builtin.uri:
@@ -20,3 +21,4 @@
       Content-Type: "application/xml"
   when:
     - node_deleted
+  delegate_to: localhost
