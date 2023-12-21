@@ -26,6 +26,10 @@ onms_group_service: {}
 onms_host_service: {}
 onms_node_services: "{{ onms_group_services | combine(onms_host_services) }}"
 
+onms_host_assets: {}
+onms_group_assets: {}
+onms_node_assets: "{{ onms_group_assets | combine(onms_host_assets) }}"
+
 onms_node_categories: "{{ (onms_group_categories | default([])) | union(onms_host_categories | default([]))  }}"
 
 # Sets the node default location
