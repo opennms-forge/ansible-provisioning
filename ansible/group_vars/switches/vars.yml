@@ -11,7 +11,6 @@ onms_group_assets:
    floor: 2
    room: 213
    rack: 1
-   rackunitheight: 1
 
 onms_group_metadata:
    app: switches
