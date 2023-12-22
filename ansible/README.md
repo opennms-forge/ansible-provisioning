@@ -137,7 +137,7 @@ onms_host_metadata:
 ### onms_host_parent_[requisition_name|foreignid|node_label]
 
 Can be used in group -or- host vars to define the corresponding parent node which is required to use the path outage feature.
-`onms_host_parentforeignsource` is required if the parent node is in a different requisition. And one of the other two is required.
+`onms_host_parent_foreign_source` is required if the parent node is in a different requisition. And one of the other two is required.
 
 **Example:**
 ```
