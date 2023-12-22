@@ -177,6 +177,14 @@ The removal API calls are `never` called by default. They can be run by using th
 ```
 ansible-playbook -i inventory/03-switches.yml 03-switches.yml -l switch1 --tags opennms-node-removal
 ```
+### Update node information
+
+To overwrite existing node data, the tag `opennms-node-update` can be used.
+Please be aware that removing data is currently only possible by deleting the node.
+
+```
+ansible-playbook -i inventory/03-switches.yml 03-switches.yml -l switch1 --tags opennms-node-update
+```
 
 ### skip_import
 

@@ -59,23 +59,7 @@
     - opennms-provisioning
   delegate_to: localhost
 
-- name: "Verify if nodes exist in requisitions"
-  ansible.builtin.uri:
-    url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/nodes/{{ onms_host_foreignid }}"
-    user: "{{ onms_hzn_user }}"
-    password: "{{ onms_hzn_password }}"
-    method: GET
-    force_basic_auth: true
-    status_code: 200
-  ignore_errors: true
-  no_log: true
-  register: node_exists
-  when: requisition_exists
-  tags:
-    - opennms-provisioning
-  delegate_to: localhost
-
-- name: "Create nodes in requisitions"
+- name: "Create or update nodes in requisitions"
   ansible.builtin.uri:
     url: "{{ onms_hzn_base_rest_url }}/{{ onms_hzn_requisitions_api }}/{{ onms_requisition_name }}/nodes"
     user: "{{ onms_hzn_user }}"
@@ -88,7 +72,7 @@
   no_log: true
   tags:
     - opennms-provisioning
-  when: node_exists.failed
+    - opennms-node-update
   delegate_to: localhost
 
 # Creates a file in the root folder and writes the node definition into it.
@@ -122,4 +106,5 @@
     - opennms-provisioning
     - opennms-requisition-import
     - opennms-node-removal
+    - opennms-node-update
   delegate_to: localhost
