@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<node xmlns="http://xmlns.opennms.org/xsd/config/model-import" location="{{ onms_location }}" foreign-id="{{ onms_host_foreignid }}" node-label="{{ onms_host_nodelabel }}"{% if onms_node_parent_foreign_id is defined and onms_node_parent_foreign_id|string|length %} parent-foreign-id="{{ onms_node_parent_foreign_id}}"{% endif %}>
+<node xmlns="http://xmlns.opennms.org/xsd/config/model-import" location="{{ onms_location }}" foreign-id="{{ onms_host_foreignid }}" node-label="{{ onms_host_nodelabel }}" {% if onms_host_parent_requisition_name is defined and onms_host_parent_requisition_name|string|length %} parent-foreign-source="{{ onms_host_parent_requisition_name }}"{% endif %} {% if onms_host_parent_foreignid is defined and onms_host_parent_foreignid|string|length %} parent-foreign-id="{{ onms_host_parent_foreignid }}"{% endif %} {% if onms_host_parent_node_label is defined and onms_host_parent_node_label|string|length %} parent-node-label="{{ onms_host_parent_node_label }}"{% endif %}>
   <interface descr="disc-if" ip-addr="{{ ansible_host }}" managed="true" status="1" snmp-primary="P">
 {% if onms_node_services is defined %}
 {% for service_name,service in onms_node_services.items() %}

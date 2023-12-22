@@ -15,7 +15,5 @@ onms_group_assets:
 onms_group_metadata:
    app: switches
 
-onms_node_parent_foreign_id: "200"
-
 onms_group_categories:
    - switches

@@ -34,5 +34,6 @@ switches:
         env: staging
       onms_host_categories:
         - staging
+      onms_host_parent_node_label: switch1
       onms_host_assets:
         rackunitheight: 2

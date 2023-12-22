@@ -134,14 +134,18 @@ onms_host_metadata:
   docs: http://nice-documentation.com
 ```
 
-### onms_node_parent_foreign_id
+### onms_host_parent_[requisition_name|foreignid|node_label]
 
-Can be used in group -or- host vars to define the parent_foreign_id which is required to use the path outage feature.
+Can be used in group -or- host vars to define the corresponding parent node which is required to use the path outage feature.
+`onms_host_parent_foreign_source` is required if the parent node is in a different requisition. And one of the other two is required.
 
 **Example:**
 ```
-onms_node_parent_foreign_id: "1000"
+onms_host_parent_requisition_name: 'switches'
+onms_host_parent_node_label: 'switch1'
+onms_host_parent_foreignid: '5048'
 ```
+
 
 ### onms_node_additional_nic
 
